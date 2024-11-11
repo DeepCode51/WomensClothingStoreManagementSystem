@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>后台管理系统</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="css/fullcalendar.css"/>
+    <link rel="stylesheet" href="css/maruti-style.css"/>
+    <link rel="stylesheet" href="css/maruti-media.css" class="skin-color"/>
+</head>
+<body>
+
+
+<div id="iframetop">
+</div>
+<!--Header-part-->
+<!--close-Header-part-->
+
+
+<!--top-Header-menu-->
+
+<!--close-top-Header-menu-->
+
+
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"><a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>
+            Home</a></div>
+    </div>
+    <div class="copyrights">Collect from <a href="https://www.webmoban.net">网页模板</a></div>
+    <div class="container-fluid">
+        <div class="widget-box">
+            <div class="widget-content" id="app">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <div class="widget-box widget-chat">
+                            <div class="widget-title"><span class="icon"> <i class="icon-comment"></i> </span>
+                                <h5>销量统计</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <div  id="tx" style="width: 100%;height:450px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="span6">
+                        <div class="widget-box widget-chat">
+                            <div class="widget-title"><span class="icon"> <i class="icon-comment"></i> </span>
+                                <h5>销量额统计</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <div  id="tx1" style="width: 100%;height:450px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row-fluid" id="iframefoot">
+</div>
+<script src="js/excanvas.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.flot.min.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/maruti.js"></script>
+<script src="js/maruti.dashboard.js"></script>
+<script src="js/maruti.chat.js"></script>
+<script type="text/javascript">
+    // This function is called from the pop-up menus to transfer to
+    // a different page. Ignore if the value returned is a null string:
+    function goPage(newURL) {
+
+        // if url is empty, skip the menu dividers and reset the menu selection to default
+        if (newURL != "") {
+
+            // if url is "-", it is this page -- reset the menu:
+            if (newURL == "-") {
+                resetMenu();
+            }
+            // else, send page to designated URL
+            else {
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // resets the menu selection upon entry to this page:
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
+</script>
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../layer/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
+
+<script type="text/javascript" src="../axios/echart.min.js"></script>
+<script type="text/javascript">
+    var qs = Qs
+    var vmm = new Vue({
+        el: '#app',
+        data: {
+            dataAxis:[],
+            dataval:[],
+
+            nlist:[],
+            slist:[],
+        },
+        mounted() {
+            this.getsalenum()
+            this.gettjmoney()
+        },
+        methods: {
+            getsalenum(){
+                axios.post('tjSalenum',qs.stringify({
+                })).then(response =>{
+                    this.dataval = response.data.dataval
+                    this.dataAxis = response.data.dataAxis
+
+
+                    var myChart = echarts.init(document.getElementById('tx'));
+                    option = {
+                        tooltip : {
+                            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: this.dataAxis,
+                            axisLabel:{
+                                interval:0,//横轴信息全部显示
+                                rotate:-30,//-30度角倾斜显示
+                            }
+
+                        },
+                        yAxis: {
+                            type: 'value',
+                        },
+                        series: [{
+                            data: this.dataval,
+                            type: 'bar',
+
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true, //开启显示
+                                        position: 'top', //在上方显示
+                                        textStyle: { //数值样式
+                                            color: 'black',
+                                            fontSize: 16
+                                        }
+                                    }
+                                }
+                            }
+                        }]
+                    };
+
+
+                    myChart.setOption(option);
+
+
+
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+
+
+            gettjmoney(){
+
+                axios.post('tjMoney',qs.stringify({
+                })).then(response =>{
+
+                    this.nlist = response.data.nlist
+                    this.slist = response.data.slist
+
+
+                    var myChart = echarts.init(document.getElementById('tx1'));
+
+                    option = {
+                        title: {
+                            // text: '销售额走势图',
+                            subtext: ''
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
+                                },
+                                dataView: {readOnly: false},
+                                magicType: {type: ['line', 'bar']},
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis:  {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: vmm.nlist
+                        },
+                        yAxis: {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: '¥{value} '
+                            }
+                        },
+                        series: [
+                            {
+                                name:'销售额',
+                                type:'line',
+                                data:vmm.slist,
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大金额'},
+                                        {type: 'min', name: '最小金额'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均金额'}
+                                    ]
+                                }
+                            }
+                        ]
+                    };
+
+
+                    myChart.setOption(option);
+
+                }).catch(error =>{
+
+                })
+
+            }
+
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#iframetop').load('top.html');
+
+    });
+
+</script>
+</body>
+
+</html>

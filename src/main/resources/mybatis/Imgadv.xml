@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.ImgadvDAO">
+  <resultMap id="BaseResultMap" type="com.it.entity.Imgadv">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Imgadv where 1=1
+        <if test="key!=null and key!=''">
+            and url like "%"#{key}"%"
+        </if>
+        order by id desc
+    </select>
+
+    <insert id="add" parameterType="com.it.entity.Imgadv">
+        insert into Imgadv values(null,#{filename},#{url})
+    </insert>
+  
+  
+    <update id="update" parameterType="com.it.entity.Imgadv">
+       update Imgadv
+       <set>
+         <if test="filename!=null and filename!=''"> filename=#{filename},</if>
+         <if test="url!=null and url!=''"> url=#{url},</if>
+       </set>
+       where id=#{id}
+    </update>
+  
+  
+
+
+    <select id="findById" parameterType="int" resultType="com.it.entity.Imgadv">
+      select * from Imgadv where id=#{id}
+    </select>
+    
+    <delete id="delete" parameterType="Int">
+      delete from Imgadv where id=#{id}
+    </delete>
+    
+    
+  
+</mapper>

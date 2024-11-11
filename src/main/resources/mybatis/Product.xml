@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.ProductDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Product">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="filename" jdbcType="VARCHAR" property="filename"/>
+        <result column="categoryid" jdbcType="INTEGER" property="categoryid"/>
+        <result column="childid" jdbcType="INTEGER" property="childid"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="tprice" jdbcType="DECIMAL" property="tprice"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="issj" jdbcType="VARCHAR" property="issj"/>
+        <result column="istj" jdbcType="VARCHAR" property="istj"/>
+    </resultMap>
+
+
+    <insert id="add" parameterType="com.it.entity.Product">
+        insert into Product values(null,#{name},#{filename},#{categoryid},#{childid},#{price},#{tprice},#{content},#{issj},#{istj})
+    </insert>
+
+
+    <update id="update" parameterType="com.it.entity.Product">
+        update Product
+        <set>
+            <if test="name!=null and name!=''">name=#{name},</if>
+            <if test="filename!=null and filename!=''">filename=#{filename},</if>
+            <if test="categoryid!=null and categoryid!=''">categoryid=#{categoryid},</if>
+            <if test="childid!=null and childid!=''">childid=#{childid},</if>
+            <if test="price &gt; 0">price=#{price},</if>
+            <if test="tprice &gt;= 0">tprice=#{tprice},</if>
+
+            <if test="content!=null and content!=''">content=#{content},</if>
+            <if test="issj!=null and issj!=''">issj=#{issj},</if>
+            <if test="istj!=null and istj!=''">istj=#{istj},</if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+        select * from Product where 1=1
+        <if test="key!=null and key!=''"> and name like "%"#{key}"%"</if>
+        <if test="categoryid!=null and categoryid!=''"> and categoryid=#{categoryid}</if>
+        <if test="childid!=null and childid!=''"> and childid=#{childid}</if>
+        <if test="istj!=null and istj!=''">  and istj=#{istj}</if>
+        <if test="issj!=null and issj!=''">  and issj=#{issj}</if>
+        order by id desc
+    </select>
+
+
+    <select id="findById" parameterType="int" resultType="com.it.entity.Product">
+      select * from Product where id=#{id}
+    </select>
+
+    <delete id="delete" parameterType="int">
+      delete from product where id=#{id}
+    </delete>
+
+
+</mapper>

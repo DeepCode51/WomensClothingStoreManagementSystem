@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.AddressDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Address">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="memberid" jdbcType="INTEGER" property="memberid"/>
+        <result column="addr" jdbcType="VARCHAR" property="addr"/>
+        <result column="ismr" jdbcType="VARCHAR" property="ismr"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.it.entity.Address">
+      insert into Address values(null,#{memberid},#{addr},#{ismr},#{name},#{phone})
+    </insert>
+
+    <update id="update" parameterType="com.it.entity.Address">
+        update Address
+        <set>
+            <if test="addr!=null and addr!=''">addr=#{addr},</if>
+            <if test="name!=null and name!=''">name=#{name},</if>
+            <if test="phone!=null and phone!=''">phone=#{phone},</if>
+            <if test="ismr!=null and ismr!=''">ismr=#{ismr},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Address where 1=1
+        <if test="memberid!=null and memberid!=''">
+            and memberid=#{memberid}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.it.entity.Address">
+      select * from Address  where id=#{id}
+    </select>
+
+
+    <delete id="delete" parameterType="int">
+      delete from Address where id=#{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<div id="topapp">
+<div class="main-header">
+    <div class="container container-default custom-area">
+        <div class="row">
+            <div class="col-lg-12 col-custom">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
+                        <div class="header-logo d-flex align-items-center">
+                            <a href="index.html" style="font-size: 20px;font-weight: bold">
+                                衣衣布舍女装网站
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-xl-7 position-static d-none d-lg-block col-custom">
+                        <nav class="main-nav d-flex justify-content-center">
+                            <ul class="nav">
+                                <li>
+                                    <a :class="biaoji=='index'?'active':''"  href="index.html">
+                                        <span class="menu-text"> 首页</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a :class="biaoji=='newslist'?'active':''"  href="newslist.html">
+                                        <span class="menu-text"> 新闻资讯</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a :class="biaoji=='productlist'?'active':''" href="productlist.html">
+                                        <span class="menu-text">线上商城</span>
+                                    </a>
+                                </li>
+                                <!--<li>-->
+                                    <!--<a href="#">-->
+                                        <!--<span class="menu-text"> 功能</span>-->
+                                        <!--<i class="fa fa-angle-down"></i>-->
+                                    <!--</a>-->
+                                    <!--<ul class="dropdown-submenu dropdown-hover">-->
+                                        <!--<li><a href="frequently-questions.html">常见问题</a></li>-->
+
+                                        <!--<li><a href="login.html">登录</a></li>-->
+                                        <!--<li><a href="register.html">注册</a></li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+                                <li>
+                                    <a :class="biaoji=='chatlist'?'active':''" href="chatlist.html">
+                                        <span class="menu-text"> 在线留言</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-2 col-xl-3 col-sm-6 col-6 col-custom">
+                        <div class="header-right-area main-nav">
+                            <ul class="nav">
+                                <li v-if="sessionmember==''" class="login-register-wrap d-none d-xl-flex">
+                                    <span><a href="login.html">登录</a></span>
+                                    <span><a href="register.html">注册</a></span>
+                                </li>
+
+                                <li v-if="sessionmember!=''" class="minicart-wrap">
+                                    <a href="#" class="minicart-btn toolbar-btn">
+                                        <i class="ion-bag"> </i>
+                                        <span class="cart-item_count">{{cartlist.length}}</span>
+                                    </a>
+                                    <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
+
+
+                                        <div class="single-cart-item" v-for="(cart,i) in cartlist">
+                                            <div class="cart-img">
+                                                <a :href="['productdetails.html?id='+cart.product.id]"><img :src="['upload/'+cart.product.filename]" alt=""></a>
+                                            </div>
+                                            <div class="cart-text">
+                                                <h5 class="title"><a :href="['productdetails.html?id='+cart.product.id]">{{i+1}}. {{cart.product.name}}</a></h5>
+                                                <div class="cart-text-btn">
+                                                    <div class="cart-qty">
+                                                        <span>{{cart.num}}×</span>
+                                                        <!--<span class="cart-price">￥98.00</span>-->
+
+                                                        <template v-if="cart.product.tprice>0">
+                                                            <span class="cart-price ">￥{{cart.product.tprice}}</span>
+                                                            <span class="old-price"><del>￥{{cart.product.price}}</del></span>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span class="cart-price">￥{{cart.product.price}}</span>
+                                                        </template>
+                                                    </div>
+                                                    <button type="button" @click="del(cart.id)"><i class="ion-trash-b"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="cart-price-total d-flex justify-content-between" style="border-bottom: 0px;">
+                                            <h5>总价 :</h5>
+                                            <h5>￥{{total}}</h5>
+                                        </div>
+                                        <div class="cart-links d-flex justify-content-center">
+                                            <a class="obrien-button white-btn" href="cartlist.html">查看购物车</a>
+                                            <!--<a class="obrien-button white-btn" href="checkout.html">立即结算</a>-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li v-if="sessionmember!=''" class="login-register-wrap d-none d-xl-flex">
+                                    <span style="margin-left: 20px;"><a href="#">{{sessionmember.tname}}</a><span>    欢迎登录！</span></span>
+                                    <span style="margin-left: 20px;"><a href="#">个人中心</a></span>
+                                    <div style="width: 230px;text-align: center;" class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
+
+
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="addresslist.html">收货地址</a></span>
+                                        </div>
+
+
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="orderlist.html">我的订单</a></span>
+                                        </div>
+
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="applylist.html">售后信息</a></span>
+                                        </div>
+
+
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="favlist.html">我的收藏</a></span>
+                                        </div>
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="memberedit.html">个人信息</a></span>
+                                        </div>
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="#" @click="logout()">退出</a></span>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="mobile-menu-btn d-lg-none">
+                                    <a class="off-canvas-btn" href="#">
+                                        <i class="fa fa-bars"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="main-header header-sticky">
+    <div class="container container-default custom-area">
+        <div class="row">
+            <div class="col-lg-12 col-custom">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-xl-2 col-sm-6 col-6 col-custom">
+                        <div class="header-logo">
+                            <a href="index.html" style="font-size: 20px;font-weight: bold">
+                                衣衣布舍女装网站
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-xl-7 position-static d-none d-lg-block col-custom">
+                        <nav class="main-nav d-flex justify-content-center">
+                            <ul class="nav">
+                                <li>
+                                    <a :class="biaoji=='index'?'active':''" href="index.html">
+                                        <span class="menu-text"> 首页</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a :class="biaoji=='newslist'?'active':''" href="newslist.html">
+                                        <span class="menu-text"> 新闻资讯</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a :class="biaoji=='productlist'?'active':''" href="productlist.html">
+                                        <span class="menu-text">线上商城</span>
+                                    </a>
+                                </li>
+                                <!--<li>-->
+                                    <!--<a href="#">-->
+                                        <!--<span class="menu-text"> 功能</span>-->
+                                        <!--<i class="fa fa-angle-down"></i>-->
+                                    <!--</a>-->
+                                    <!--<ul class="dropdown-submenu dropdown-hover">-->
+                                        <!--<li><a href="frequently-questions.html">常见问题</a></li>-->
+
+                                        <!--<li><a href="login.html">登录</a></li>-->
+                                        <!--<li><a href="register.html">注册</a></li>-->
+                                    <!--</ul>-->
+                                <!--</li>-->
+                                <li>
+                                    <a :class="biaoji=='chatlist'?'active':''" href="chatlist.html">
+                                        <span class="menu-text"> 在线留言</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-2 col-xl-3 col-sm-6 col-6 col-custom">
+                        <div class="header-right-area main-nav">
+                            <ul class="nav">
+                                <li v-if="sessionmember==''" class="login-register-wrap d-none d-xl-flex">
+                                    <span><a href="login.html">登录</a></span>
+                                    <span><a href="register.html">注册</a></span>
+                                </li>
+
+                                <li v-if="sessionmember!=''" class="minicart-wrap">
+                                    <a href="#" class="minicart-btn toolbar-btn">
+                                        <i class="ion-bag"></i>
+                                        <span class="cart-item_count">{{cartlist.length}}</span>
+                                    </a>
+                                    <div class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
+                                        <div class="single-cart-item" v-for="(cart,i) in cartlist">
+                                            <div class="cart-img">
+                                                <a :href="['productdetails.html?id='+cart.product.id]"><img :src="['upload/'+cart.product.filename]" alt=""></a>
+                                            </div>
+                                            <div class="cart-text">
+                                                <h5 class="title"><a :href="['productdetails.html?id='+cart.product.id]">{{i+1}}. {{cart.product.name}}</a></h5>
+                                                <div class="cart-text-btn">
+                                                    <div class="cart-qty">
+                                                        <span>{{cart.num}}×</span>
+                                                        <!--<span class="cart-price">￥98.00</span>-->
+
+                                                        <template v-if="cart.product.tprice>0">
+                                                            <span class="cart-price ">￥{{cart.product.tprice}}</span>
+                                                            <span class="old-price"><del>￥{{cart.product.price}}</del></span>
+                                                        </template>
+                                                        <template v-else>
+                                                            <span class="cart-price">￥{{cart.product.price}}</span>
+                                                        </template>
+                                                    </div>
+                                                    <button type="button" @click="del(cart.id)"><i class="ion-trash-b"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="cart-price-total d-flex justify-content-between" style="border-bottom: 0px;">
+                                            <h5>总价 :</h5>
+                                            <h5>￥{{total}}</h5>
+                                        </div>
+                                        <div class="cart-links d-flex justify-content-center">
+                                            <a class="obrien-button white-btn" href="cartlist.html">查看购物车</a>
+                                            <!--<a class="obrien-button white-btn" href="checkout.html">立即结算</a>-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li v-if="sessionmember!=''" class="login-register-wrap d-none d-xl-flex">
+                                    <span style="margin-left: 20px;"><a href="#">{{sessionmember.tname}}</a><span>    欢迎登录！</span></span>
+                                    <span style="margin-left: 20px;"><a href="#">个人中心</a></span>
+                                    <div style="width: 230px;text-align: center;" class="cart-item-wrapper dropdown-sidemenu dropdown-hover-2">
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="addresslist.html">收货地址</a></span>
+                                        </div>
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="orderlist.html">我的订单</a></span>
+                                        </div>
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="applylist.html">售后信息</a></span>
+                                        </div>
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="favlist.html">我的收藏</a></span>
+                                        </div>
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="#">个人信息</a></span>
+                                        </div>
+                                        <div class="cart-price-total d-flex justify-content-between">
+                                            <span><a href="#" @click="logout()">退出</a></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="mobile-menu-btn d-lg-none">
+                                    <a class="off-canvas-btn" href="#mobileMenu">
+                                        <i class="fa fa-bars"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<aside class="off-canvas-wrapper" id="mobileMenu">
+    <div class="off-canvas-overlay"></div>
+    <div class="off-canvas-inner-content">
+        <div class="btn-close-off-canvas">
+            <i class="fa fa-times"></i>
+        </div>
+        <div class="off-canvas-inner">
+
+            <div class="search-box-offcanvas">
+                <form>
+                    <input type="text" placeholder="Search product...">
+                    <button class="search-btn"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+            <!-- mobile menu start -->
+            <div class="mobile-navigation">
+
+                <!-- mobile menu navigation start -->
+                <nav>
+                    <ul class="mobile-menu">
+                        <li class="menu-item-has-children"><a href="index.html">首页</a>
+                        </li>
+                        <li class="menu-item-has-children"><a href="shop.html">商品</a>
+                        </li>
+                        <li class="menu-item-has-children "><a href="blog-details-fullwidth.html">博客</a>
+                        </li>
+                        <li class="menu-item-has-children "><a href="#">功能</a>
+                            <ul class="dropdown">
+                                <li><a href="frequently-questions.html">常见问题</a></li>
+                                <li><a href="login.html">登录&amp; 注册</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="about-us.html">关于我们</a></li>
+                        <li><a href="contact-us.html">联系</a></li>
+                    </ul>
+                </nav>
+                <!-- mobile menu navigation end -->
+            </div>
+            <!-- mobile menu end -->
+            <div class="header-top-settings offcanvas-curreny-lang-support">
+                <!-- mobile menu navigation start -->
+                <nav>
+                    <ul class="mobile-menu">
+                        <li class="menu-item-has-children"><a href="#">我的帐户</a>
+                            <ul class="dropdown">
+                                <li><a href="login.html">登录</a></li>
+                                <li><a href="Register.html">注册</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- mobile menu navigation end -->
+            </div>
+            <!-- offcanvas widget area start -->
+            <div class="offcanvas-widget-area">
+                <div class="top-info-wrap text-left text-black">
+                    <ul>
+                        <li>
+                            <i class="fa fa-phone"></i>
+                            <a href="https://htmldemo.hasthemes.com/obrien-preview/obrien/info@yourdomain.com">(1245) 2456 012</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope"></i>
+                            <a href="https://htmldemo.hasthemes.com/obrien-preview/obrien/info@yourdomain.com">info@yourdomain.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="off-canvas-widget-social">
+                    <a title="Facebook-f" href="#"><i class="fa fa-facebook-f"></i></a>
+                    <a title="Twitter" href="#"><i class="fa fa-twitter"></i></a>
+                    <a title="Linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                    <a title="Youtube" href="#"><i class="fa fa-youtube"></i></a>
+                    <a title="Vimeo" href="#"><i class="fa fa-vimeo"></i></a>
+                </div>
+            </div>
+            <!-- offcanvas widget area end -->
+        </div>
+    </div>
+</aside>
+
+</div>
+<script type="text/javascript">
+    var qs = Qs
+    var topvmm = new Vue({
+        el:"#topapp",
+        data:{
+            sessionmember:"",
+            biaoji:"",
+            cartlist:[],
+            total:0,
+        },
+        mounted(){
+            this.getsessionmember()
+            this.biaoji = sessionStorage.getItem("signoutShow")
+        },
+        methods:{
+            getsessionmember(){
+                axios.post('checkmember',qs.stringify({
+                })).then(response =>{
+                    if(response.data.data==200){
+                        this.sessionmember = response.data.sessionmember
+                        this.getcartlist()
+                    }
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+            logout(){
+                layer.confirm('是否注销账号？', {
+                    btn: ['退出','取消'] //按钮
+                }, function(){
+                    axios.post('memberExit',qs.stringify({
+                    })).then(response =>{
+                        sessionStorage.removeItem("uname")
+                        location.replace("index.html")
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                }, function(){
+
+                });
+
+            },
+
+            getcartlist(){
+                axios.post('cartList',qs.stringify({
+                })).then(response =>{
+                    this.cartlist = response.data.list
+                    this.total = response.data.total
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+            del(id){
+                axios.post('cartDel',qs.stringify({
+                    id:id,
+                })).then(response =>{
+                    this.getcartlist()
+                    cartvmm.getcartlist()
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+        }
+    })
+</script>
+
+
+</html>

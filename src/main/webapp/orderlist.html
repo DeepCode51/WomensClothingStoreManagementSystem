@@ -1,0 +1,346 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>衣衣布舍女装网站</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="描述" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    
+
+    <!-- CSS
+	============================================ -->
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="assets/css/vendor/font.awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="assets/css/vendor/ionicons.min.css">
+    <!-- Slick CSS -->
+    <link rel="stylesheet" href="assets/css/plugins/slick.min.css">
+    <!-- Animation -->
+    <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <!-- jQuery Ui -->
+    <link rel="stylesheet" href="assets/css/plugins/jquery-ui.min.css">
+    <!-- Nice Select -->
+    <link rel="stylesheet" href="assets/css/plugins/nice-select.min.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from the above) -->
+
+    <!-- <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"> -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/css/style.min.css"> -->
+
+    <style>
+        .activs{
+            border:1px solid #E98C81;
+            color:white;
+            background: #E98C81;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contact-wrapper">
+        <header class="main-header-area">
+            <div id="topiframe"></div>
+            <!-- Main Header Area Start -->
+
+            <!-- Main Header Area End -->
+            <!-- Sticky Header Start Here-->
+
+            <!-- Sticky Header End Here -->
+            <!-- off-canvas menu start -->
+
+            <!-- off-canvas menu end -->
+        </header>
+        <!-- Breadcrumb Area Start Here -->
+        <div class="breadcrumbs-area position-relative" style="background: url('upload/banner.jpg')">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="breadcrumb-content position-relative section-content">
+                            <h3 class="title-3">我的订单</h3>
+                            <ul>
+                                <li><a href="index.html">首页</a></li>
+                                <li>订单列表</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Breadcrumb Area End Here -->
+        <!-- Login Area Start Here -->
+        <div class="cart-main-wrapper mt-no-text mb-no-text" id="app" style="margin-top: 20px;">
+            <div class="container container-default-2 custom-area">
+                <div class="row">
+                    <div class="col-lg-12" style="padding-bottom: 20px;">
+                        <button type="button" :class="status==''?'layui-btn  layui-btn-primary activs':'layui-btn  layui-btn-primary'"  @click="getorderlist('')">全部</button>
+                        <button type="button" :class="status=='待付款'?'layui-btn  layui-btn-primary activs':'layui-btn  layui-btn-primary'"  @click="getorderlist('待付款')">待付款</button>
+                        <button type="button" :class="status=='待发货'?'layui-btn  layui-btn-primary activs':'layui-btn  layui-btn-primary'" @click="getorderlist('待发货')">待发货</button>
+                        <button type="button" :class="status=='待收货'?'layui-btn  layui-btn-primary activs':'layui-btn  layui-btn-primary'" @click="getorderlist('待收货')">待收货</button>
+                        <button type="button" :class="status=='交易完成'?'layui-btn  layui-btn-primary activs':'layui-btn  layui-btn-primary'" @click="getorderlist('交易完成')">交易完成</button>
+
+                    </div>
+                    <div class="col-lg-12">
+
+                        <!-- Cart Table Area -->
+                        <div class="cart-table table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>订单编号</th>
+                                    <th>商品信息</th>
+                                    <th>订单金额</th>
+                                    <th>收货地址</th>
+                                    <th>创建时间</th>
+                                    <th>订单状态</th>
+                                    <th>物流信息</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                <template v-for="(order,i) in orderlist">
+                                    <tr >
+                                        <td style="text-align: center"><a :href="['orderdetailslist.html?ddno='+order.ddno]">{{order.ddno}}</a></td>
+                                        <td style="text-align: center" v-html="order.productmsg"></td>
+
+                                        <td style="text-align: center">{{order.total}}</td>
+                                        <td style="text-align: center" v-html="order.addr">{{order.addr}}</td>
+                                        <td style="text-align: center">{{order.savetime}}</td>
+                                        <td style="text-align: center">{{order.status}}</td>
+                                        <td style="text-align: center" v-html="order.wlinfo">{{order.wlinfo}}</td>
+                                        <td>
+                                            <a v-if="order.status=='待收货'" href="javascript:;" @click="shouhuo(order.id)"><span class="layui-badge layui-bg-cyan">确认收货</span></a>
+                                            <a v-if="order.status=='待付款'" href="javascript:;" @click="fukuan(order.ddno,order.total)"><span class="layui-badge layui-bg-cyan">付款</span></a>
+                                            <!--<a v-if="order.status=='待付款'" href="javascript:;" @click="fukuan(order.id,order.total)"><span class="layui-badge layui-bg-cyan">付款</span></a>-->
+
+                                            <a v-if="order.status=='待付款' || order.status=='交易完成'" href="javascript:;" @click="del(order.id)"><span class="layui-badge layui-bg-red">删除</span></a>
+                                        </td>
+                                    </tr>
+
+                                </template>
+                                <tr>
+                                    <td colspan="8">
+                                        <div id="demo1" style="text-align:center"></div>
+                                    </td>
+                                </tr>
+
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Cart Update Option -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Login Area End Here -->
+        <!-- Support Area Start Here -->
+        <div class="support-area">
+
+        </div>
+        <!-- Support Area End Here -->
+        <!-- Footer Area Start Here -->
+        <footer class="footer-area">
+            <div class="footer-copyright-area" id="footiframe">
+            </div>
+        </footer>
+        <!-- Footer Area End Here -->
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- jQuery JS -->
+    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <!-- jQuery Migrate JS -->
+    <script src="assets/js/vendor/jQuery-migrate-3.3.0.min.js"></script>
+    <!-- Modernizer JS -->
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <!-- Slick Slider JS -->
+    <script src="assets/js/plugins/slick.min.js"></script>
+    <!-- Countdown JS -->
+    <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+    <!-- Ajax JS -->
+    <script src="assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <!-- Jquery Nice Select JS -->
+    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+    <!-- Jquery Ui JS -->
+    <script src="assets/js/plugins/jquery-ui.min.js"></script>
+    <!-- jquery magnific popup js -->
+    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+
+    <!-- Main JS -->
+
+
+    <script type="text/javascript" src="axios/vue.js"></script>
+    <script type="text/javascript" src="axios/axios.min.js"></script>
+    <script type="text/javascript" src="axios/qs.js"></script>
+    <script type="text/javascript" src="axios/getUrlParams.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+
+    <!--<script src="assets/js/main.js"></script>-->
+
+    <script type="text/javascript">
+
+        var qs = Qs
+        var vmm = new Vue({
+            el: '#app',
+            data: {
+                orderlist:[],
+                pageSize:10,
+                status:"",
+            },
+            mounted(){
+                if (sessionStorage.getItem("uname") == null) {
+                    location.replace("login.html")
+                    return;
+                }
+                this.getsessionmember()
+            },
+            methods: {
+                getsessionmember(){
+                    axios.post('checkmember',qs.stringify({
+                    })).then(response =>{
+                        if(response.data.data==200){
+                            this.getorderlist('')
+                        }else{
+                            location.replace("login.html")
+                        }
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+                shouhuo(id){
+                    axios.post('shouhuo',qs.stringify({
+                        id:id,
+                    })).then(response =>{
+                        this.getorderlist('')
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+                fukuan(ddno,price){
+                    axios.post('goAlipay',qs.stringify({
+                        price:price,
+                        ddno:ddno,
+                    })).then(response =>{
+                        document.write(response.data.res)
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+
+                // fukuan(id,total){
+                //     layer.open({
+                //         title:"订单付款",
+                //         type:2,
+                //         area:['600px','500px'],
+                //         maxmin:true,
+                //         content:"fukuan.html?id="+id+"&total="+total
+                //     })
+                //     // axios.post('fukuan',qs.stringify({
+                //     //     id:id,
+                //     // })).then(response =>{
+                //     //     this.getorderlist('')
+                //     // }).catch(error =>{
+                //     //     console.log(error)
+                //     // })
+                // },
+
+
+                getorderlist(status) {
+                    this.status = status
+                    axios.post('orderList',qs.stringify({
+                        key:this.key,
+                        status:this.status,
+                        pageSize:this.pageSize,
+                    })).then(response =>{
+                        layui.use(['laypage', 'layer'], function(){
+                            var laypage = layui.laypage
+                                ,layer = layui.layer;
+                            //总页数大于页码总数
+                            laypage.render({
+                                elem: 'demo1'
+                                ,theme:"#E98C81"
+
+                                ,limit:vmm.pageSize
+                                ,count: response.data.list.length //数据总数
+                                ,jump: function(obj,first){
+                                    vmm.current_page(obj.curr,vmm.pageSize)
+                                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                                }
+                            });
+                        });
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+
+                current_page(page,pageSize){
+                    axios.post('orderList',qs.stringify({
+                        key:this.key,
+                        status:this.status,
+                        pageNum:page,
+                        pageSize:pageSize,
+                    })).then(response =>{
+                        this.orderlist = response.data.pageInfo.list
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+                del(id){
+                    axios.post('admin/orderDel',qs.stringify({
+                        id:id,
+                    })).then(response =>{
+                        this.getorderlist()
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+            }
+        });
+
+        window.onload=function(){
+            $("#topiframe").load("iframe/topiframe.html")
+            $("#footiframe").load("iframe/footiframe.html")
+
+            // var sc = document.createElement("script");
+            // sc.src = "assets/js/main.js";
+            // $("body").append(sc);
+
+
+        }
+    </script>
+
+</body>
+
+</html>

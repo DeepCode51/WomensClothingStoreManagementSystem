@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>后台管理系统</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../layui/css/layui.css"/>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="css/fullcalendar.css"/>
+    <link rel="stylesheet" href="css/maruti-style.css"/>
+    <link rel="stylesheet" href="css/maruti-media.css" class="skin-color"/>
+
+
+</head>
+<body>
+
+
+<div id="iframetop">
+</div>
+<!--Header-part-->
+<!--close-Header-part-->
+
+
+<!--top-Header-menu-->
+
+<!--close-top-Header-menu-->
+
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb">
+            <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
+            <a href="#" class="tip-bottom">留言管理</a>
+            <a href="#" class="current">留言回复</a>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="app">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+								<span class="icon">
+									<i class="icon-align-justify"></i>
+								</span>
+                        <h5>留言回复</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form action="#" method="get" class="form-horizontal">
+
+
+                            <div class="control-group">
+                                <label class="control-label">回复内容 :</label>
+                                <div class="controls"><input type="text" v-model="hfcontent" class="span20"
+                                                             placeholder="回复内容"/></div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-success" @click="add()">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+<script src="js/excanvas.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.flot.min.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/maruti.js"></script>
+<script src="js/maruti.dashboard.js"></script>
+<script src="js/maruti.chat.js"></script>
+<script type="text/javascript">
+    // This function is called from the pop-up menus to transfer to
+    // a different page. Ignore if the value returned is a null string:
+    function goPage(newURL) {
+
+        // if url is empty, skip the menu dividers and reset the menu selection to default
+        if (newURL != "") {
+
+            // if url is "-", it is this page -- reset the menu:
+            if (newURL == "-") {
+                resetMenu();
+            }
+            // else, send page to designated URL
+            else {
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // resets the menu selection upon entry to this page:
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
+</script>
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../layer/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript">
+
+    var qs = Qs
+    var id = UrlParam.paramValues("id").toString()
+    var pageNum = UrlParam.paramValues("pageNum").toString()
+
+
+    var vmm = new Vue({
+        el: '#app',
+        data: {
+            hfcontent: "",
+            id: id,
+            pageNum: pageNum,
+        },
+        mounted() {
+        },
+        methods: {
+            add() {
+                if (this.hfcontent == "") {
+                    layer.msg("回复内容不能为空", {icon: 5})
+                    return false;
+                }
+
+                axios.post('chatEdit', qs.stringify({
+                    id: this.id,
+                    hfcontent: this.hfcontent,
+                })).then(response => {
+                    location.replace("chatlist.html?pageNum=" + this.pageNum)
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+
+        }
+    });
+
+
+    $(document).ready(function () {
+        $('#iframetop').load('top.html');
+
+    });
+
+</script>
+</body>
+
+</html>

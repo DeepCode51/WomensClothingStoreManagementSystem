@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="layui/css/layui.css" rel="stylesheet">
+</head>
+<body>
+<div style="padding: 20px;" id="app">
+    <form class="layui-form" action="">
+
+        <div class="layui-form-item">
+                <input type="radio" name="flag" value="退货" title="退货" checked>
+                <input type="radio" name="flag" value="换货" title="换货" >
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+                <textarea v-model="content" placeholder="商品说明" class="layui-textarea"></textarea>
+        </div>
+
+        <div class="layui-form-item">
+                <a class="layui-btn" lay-submit lay-filter="formDemo" @click="add()">立即提交</a>
+        </div>
+    </form>
+</div>
+
+</body>
+<script type="text/javascript" src="layer/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+
+
+<script type="text/javascript" src="axios/vue.js"></script>
+<script type="text/javascript" src="axios/axios.min.js"></script>
+<script type="text/javascript" src="axios/qs.js"></script>
+<script type="text/javascript" src="axios/getUrlParams.js"></script>
+<script type="text/javascript">
+</script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script type="text/javascript">
+
+    layui.use('form', function(){
+        var form = layui.form;
+
+    });
+
+
+    var qs = Qs
+    var ordermsgid = UrlParam.paramValues("ordermsgid").toString()
+    var vmm = new Vue({
+        el: '#app',
+        data: {
+            flag:"",
+            content:"",
+            ordermsgid:ordermsgid,
+        },
+        methods: {
+            //创建订单
+            add(){
+
+                if (sessionStorage.getItem("uname") == null) {
+                    var index = parent.layer.getFrameIndex(window.name)
+                    parent.layer.close(index)
+                    parent.location.replace("login.html")
+                    return;
+                }
+
+                this.flag = $("input[type='radio']:checked").val()
+                if(this.content==""){
+                    layer.msg("商品说明不能为空",{icon:5})
+                    return false;
+                }
+                axios.post('applyAdd',qs.stringify({
+                    content:this.content,
+                    flag:this.flag,
+                    ordermsgid:this.ordermsgid,
+                })).then(response =>{
+                    layer.alert("申请成功",{icon:6},function(){
+                        parent.location.reload(true)
+                        parent.layer.closeAll()
+                    })
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+        }
+    });
+</script>
+</html>

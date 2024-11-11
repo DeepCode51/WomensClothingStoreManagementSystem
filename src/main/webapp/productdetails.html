@@ -1,0 +1,685 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>衣衣布舍女装网站</title>
+    <meta name="robots" content="noindex, follow"/>
+    <meta name="描述" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+
+
+    <!-- CSS
+	============================================ -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="assets/css/vendor/font.awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="assets/css/vendor/ionicons.min.css">
+    <!-- Slick CSS -->
+    <link rel="stylesheet" href="assets/css/plugins/slick.min.css">
+    <!-- Animation -->
+    <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <!-- jQuery Ui -->
+    <link rel="stylesheet" href="assets/css/plugins/jquery-ui.min.css">
+    <!-- Nice Select -->
+    <link rel="stylesheet" href="assets/css/plugins/nice-select.min.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from the above) -->
+
+    <!-- <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"> -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
+
+    <!-- <link rel="stylesheet" href="assets/css/style.min.css"> -->
+</head>
+
+<body>
+
+<div class="contact-wrapper">
+    <header class="main-header-area">
+        <div id="topiframe"></div>
+        <!-- Main Header Area Start -->
+
+        <!-- Main Header Area End -->
+        <!-- Sticky Header Start Here-->
+
+        <!-- Sticky Header End Here -->
+        <!-- off-canvas menu start -->
+
+        <!-- off-canvas menu end -->
+    </header>
+    <!-- Breadcrumb Area Start Here -->
+    <div class="breadcrumbs-area position-relative" style="background: url('upload/banner.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="breadcrumb-content position-relative section-content">
+                        <h3 class="title-3">商品详情</h3>
+                        <ul>
+                            <li><a href="index.html">首页</a></li>
+                            <li>商品信息-商品详情</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Area End Here -->
+    <!-- Login Area Start Here -->
+    <div class="single-product-main-area" id="app">
+        <div class="container container-default custom-area">
+            <div class="row">
+                <div class="col-lg-5 col-custom">
+                    <div class="single-image border">
+                        <img :src="['upload/'+product.filename]" style="width: 100%" alt="Product">
+                    </div>
+                </div>
+                <div class="col-lg-7 col-custom">
+                    <div class="product-summery position-relative">
+                        <div class="product-head mb-3">
+                            <h2 class="product-title">{{product.name}}</h2>
+                        </div>
+                        <div class="price-box mb-2">
+
+
+                            <template v-if="product.tprice>0">
+                                <span class="regular-price ">￥{{product.tprice}}</span>
+                                <span class="old-price"><del>￥{{product.price}}</del></span>
+                            </template>
+                            <template v-else>
+                                <span class="regular-price ">￥{{product.price}}</span>
+                            </template>
+                        </div>
+                        <!--<div class="product-rating mb-3">-->
+                        <!--<i class="fa fa-star"></i>-->
+                        <!--<i class="fa fa-star"></i>-->
+                        <!--<i class="fa fa-star"></i>-->
+                        <!--<i class="fa fa-star-o"></i>-->
+                        <!--<i class="fa fa-star-o"></i>-->
+                        <!--</div>-->
+                        <div class="mb-1">
+                            <span style="letter-spacing: 5px;font-weight: bold">分类:</span>
+                            <span>{{product.fcategory.name}}-{{product.ccategory.name}}</span>
+                        </div>
+                        <div class="mb-1">
+                            <span style="letter-spacing: 5px;font-weight: bold">库存:</span>
+                            <span>{{product.kc}}</span>
+                        </div>
+                        <div class="mb-1">
+                            <span style="letter-spacing: 5px;font-weight: bold">销量:</span>
+                            <span>{{product.salenum}}</span>
+                        </div>
+                        <div class="quantity-with_btn mb-4">
+                            <div class="quantity">
+                                <div class="cart-plus-minus">
+                                    <input class="cart-plus-minus-box" value="1" v-model="num" id="num" type="text">
+                                    <div class="dec qtybutton">-</div>
+                                    <div class="inc qtybutton">+</div>
+                                </div>
+                            </div>
+                            <div class="add-to_cart">
+                                <a class="btn obrien-button primary-btn" href="javascript:;"
+                                   @click="addcart(product.id)">添加到购物车</a>
+                                <a class="btn obrien-button-2 treansparent-color pt-0 pb-0" href="javascript:;"
+                                   @click="addfav(product.id)">添加到收藏</a>
+                            </div>
+                        </div>
+                        <div class="buy-button mb-5">
+                            <a href="javascript:;" @click="tobuy(product.id)" class="btn obrien-button-3 black-button">立即购买</a>
+                        </div>
+                        <!--<div class="social-share mb-4">-->
+                        <!--<span>Share :</span>-->
+                        <!--<a href="#"><i class="fa fa-facebook-square facebook-color"></i></a>-->
+                        <!--<a href="#"><i class="fa fa-twitter-square twitter-color"></i></a>-->
+                        <!--<a href="#"><i class="fa fa-linkedin-square linkedin-color"></i></a>-->
+                        <!--<a href="#"><i class="fa fa-pinterest-square pinterest-color"></i></a>-->
+                        <!--</div>-->
+                        <!--<div class="payment">-->
+                        <!--<a href="#"><img class="border" src="assets/images/payment/img-payment.png" alt="Payment"></a>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-no-text">
+                <div class="col-lg-12">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active text-uppercase" id="home-tab" data-toggle="tab" href="#connect-1"
+                               role="tab" aria-selected="true">描述</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" id="profile-tab" data-toggle="tab" href="#connect-2"
+                               role="tab" aria-selected="false">评价</a>
+                        </li>
+                        <!--<li class="nav-item">-->
+                        <!--<a class="nav-link text-uppercase" id="contact-tab" data-toggle="tab" href="#connect-3" role="tab" aria-selected="false">航运政策</a>-->
+                        <!--</li>-->
+                        <!--<li class="nav-item">-->
+                        <!--<a class="nav-link text-uppercase" id="review-tab" data-toggle="tab" href="#connect-4" role="tab" aria-selected="false">规格表</a>-->
+                        <!--</li>-->
+                    </ul>
+                    <div class="tab-content mb-text" id="myTabContent">
+                        <div class="tab-pane fade show active" id="connect-1" role="tabpanel"
+                             aria-labelledby="home-tab">
+                            <div class="desc-content">
+                                <p class="mb-3" v-html="product.content"></p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="connect-2" role="tabpanel" aria-labelledby="profile-tab">
+                            <!-- Start Single Content -->
+                            <div class="product_tab_content  border p-3">
+                                <div class="review_address_inner">
+                                    <!-- Start Single Review -->
+                                    <div v-for="comment in commentlist" class="pro_review mb-5">
+                                        <div class="review_thumb">
+                                            <img alt="review images" :src="['upload/'+comment.member.filename]">
+                                        </div>
+                                        <div class="review_details">
+                                            <div class="review_info mb-2">
+                                                <div :id="['rating'+comment.id]"></div>
+                                                <h5>{{comment.member.tname}} - <span> {{comment.savetime}}</span></h5>
+                                            </div>
+                                            <p v-html="comment.content"></p>
+                                            <p v-if="comment.hfcontent!=null && comment.hfcontent!=''"
+                                               style="padding-top: 5px;">
+                                                <span class="layui-badge">回复</span>
+                                                <template style="margin-left: 40px;">{{comment.hfcontent}}</template>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- End Single Review -->
+                                </div>
+
+
+                                <!-- Start RAting Area -->
+                                <div class="rating_wrap">
+                                    <h6 class="rating-title-2 mb-2">评星</h6>
+                                    <div id="test2"></div>
+                                </div>
+
+                                <!-- End RAting Area -->
+                                <div class="comments-area comments-reply-area">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-custom">
+                                            <form action="#" class="comment-form-area">
+                                                <!--<div class="row comment-input">-->
+                                                <!--<div class="col-md-6 col-custom comment-form-author mb-3">-->
+                                                <!--<label>Name <span class="required">*</span></label>-->
+                                                <!--<input type="text" required="required" name="Name">-->
+                                                <!--</div>-->
+                                                <!--<div class="col-md-6 col-custom comment-form-emai mb-3">-->
+                                                <!--<label>Email <span class="required">*</span></label>-->
+                                                <!--<input type="text" required="required" name="email">-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <div class="comment-form-comment mb-3">
+                                                    <!--<label>Comment</label>-->
+                                                    <textarea class="" placeholder="内容" v-model="content"
+                                                              required="required"></textarea>
+                                                </div>
+                                                <div class="comment-form-submit">
+                                                    <input type="button" value="提交" @click="commentadd()"
+                                                           class="comment-submit btn obrien-button primary-btn">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Content -->
+                        </div>
+                        <!--<div class="tab-pane fade" id="connect-3" role="tabpanel" aria-labelledby="contact-tab">-->
+                        <!--<div class="shipping-policy">-->
+                        <!--<h4 class="title-3 mb-4">航运政策</h4>-->
+                        <!--<p class="desc-content mb-2">新鲜水果运输要求的条件比较复杂，有的品种怕冷，有的品种怕热，对运输的温度范围要求不同，但大多种水果运输要求的温度范围在0℃-4℃之间。而香蕉的运输要求温度范围相对要高点，最好保持在12℃到14℃之间，这样才能保证香蕉运到目的地的时还能保持好的质量。</p>-->
+                        <!--<ul class="policy-list mb-2">-->
+                        <!--<li>做好质量检查</li>-->
+                        <!--<li>选择适合水果特点的包装</li>-->
+                        <!--<li>装载要留有通风空隙</li>-->
+                        <!--<li>途中保持水果所要求的温度</li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="tab-pane fade" id="connect-4" role="tabpanel" aria-labelledby="review-tab">-->
+                        <!--<div class="size-tab table-responsive-lg">-->
+                        <!--<h4 class="title-3 mb-4">规格表</h4>-->
+                        <!--<table class="table border">-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                        <!--<td class="cun-name"><span>UK</span></td>-->
+                        <!--<td>18</td>-->
+                        <!--<td>20</td>-->
+                        <!--<td>22</td>-->
+                        <!--<td>24</td>-->
+                        <!--<td>26</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td class="cun-name"><span>European</span></td>-->
+                        <!--<td>46</td>-->
+                        <!--<td>48</td>-->
+                        <!--<td>50</td>-->
+                        <!--<td>52</td>-->
+                        <!--<td>54</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td class="cun-name"><span>usa</span></td>-->
+                        <!--<td>14</td>-->
+                        <!--<td>16</td>-->
+                        <!--<td>18</td>-->
+                        <!--<td>20</td>-->
+                        <!--<td>22</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td class="cun-name"><span>Australia</span></td>-->
+                        <!--<td>28</td>-->
+                        <!--<td>10</td>-->
+                        <!--<td>12</td>-->
+                        <!--<td>14</td>-->
+                        <!--<td>16</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                        <!--<td class="cun-name"><span>Canada</span></td>-->
+                        <!--<td>24</td>-->
+                        <!--<td>18</td>-->
+                        <!--<td>14</td>-->
+                        <!--<td>42</td>-->
+                        <!--<td>36</td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                        <!--</table>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--协同过滤-->
+        <div class="product-area" style="margin-top: 30px;">
+            <div class="container container-default custom-area">
+                <div class="row">
+                    <div class="col-lg-5 m-auto text-center col-custom">
+                        <div class="section-content">
+                            <h2 class="title-1 text-uppercase">猜你喜欢 </h2>
+                            <!--<div class="desc-content">-->
+                            <!--<p>All product are now available for you and your can buy this product from here any time any where so sop now</p>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+
+                    <div class="layui-row layui-col-space10">
+                        <div v-for="(producttj,i) in lovelist" class="layui-col-xs4 layui-col-sm12 layui-col-md3">
+                            <div class="grid-demo">
+                                <div class="single-item">
+                                    <div class="single-product position-relative mb-30">
+                                        <div class="product-image">
+                                            <a class="d-block" :href="['productdetails.html?id='+producttj.id]">
+                                                <img :src="['upload/'+producttj.filename]" alt="" class="product-image-1" style="width: 100%">
+                                                <!--<img src="assets/images/product/10.jpg" alt="" class="product-image-2 position-absolute top-0 left-0">-->
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="product-rating">
+                                                <!--<i class="fa fa-star"></i>-->
+                                                <!--<i class="fa fa-star"></i>-->
+                                                <!--<i class="fa fa-star"></i>-->
+                                                <!--<i class="fa fa-star-o"></i>-->
+                                                <!--<i class="fa fa-star-o"></i>-->
+                                            </div>
+                                            <div class="product-title">
+                                                <h4 class="title-2"> <a :href="['productdetails.html?id='+producttj.id]">{{producttj.name}}</a></h4>
+                                            </div>
+                                            <div class="price-box">
+                                                <template v-if="producttj.tprice>0">
+                                                    <span class="regular-price ">￥{{producttj.tprice}}</span>
+                                                    <span class="old-price"><del>￥{{producttj.price}}</del></span>
+                                                </template>
+                                                <template v-else>
+                                                    <span class="regular-price ">￥{{producttj.price}}</span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <div class="add-action d-flex position-absolute">
+                                            <a @click="addcart(producttj.id)" href="javascript:;" title="添加到购物车">
+                                                <i class="ion-bag"></i>
+                                            </a>
+                                            <a @click="addfav(producttj.id)" href="javascript:;" title="添加到收藏">
+                                                <i class="ion-ios-heart-outline"></i>
+                                            </a>
+                                            <a :href="['productdetails.html?id='+producttj.id]" data-toggle="modal" title="Quick View">
+                                                <i class="ion-eye"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        <!--协同过滤-->
+
+    </div>
+    <!-- Login Area End Here -->
+    <!-- Support Area Start Here -->
+    <div class="support-area">
+
+    </div>
+    <!-- Support Area End Here -->
+    <!-- Footer Area Start Here -->
+    <footer class="footer-area">
+        <div class="footer-copyright-area" id="footiframe">
+        </div>
+    </footer>
+    <!-- Footer Area End Here -->
+</div>
+
+<!-- JS
+============================================ -->
+
+<!-- jQuery JS -->
+<script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+<!-- jQuery Migrate JS -->
+<script src="assets/js/vendor/jQuery-migrate-3.3.0.min.js"></script>
+<!-- Modernizer JS -->
+<script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+<!-- Slick Slider JS -->
+<script src="assets/js/plugins/slick.min.js"></script>
+<!-- Countdown JS -->
+<script src="assets/js/plugins/jquery.countdown.min.js"></script>
+<!-- Ajax JS -->
+<script src="assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+<!-- Jquery Nice Select JS -->
+<script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+<!-- Jquery Ui JS -->
+<script src="assets/js/plugins/jquery-ui.min.js"></script>
+<!-- jquery magnific popup js -->
+<script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+
+<!-- Main JS -->
+<!--<script src="assets/js/main.js"></script>-->
+
+
+<script type="text/javascript" src="axios/vue.js"></script>
+<script type="text/javascript" src="axios/axios.min.js"></script>
+<script type="text/javascript" src="axios/qs.js"></script>
+<script type="text/javascript" src="axios/getUrlParams.js"></script>
+
+<script type="text/javascript" src="layer/layer.js"></script>
+<script type="text/javascript" src="layui/layui.js"></script>
+
+
+<script type="text/javascript">
+
+    var qs = Qs
+    var id = UrlParam.paramValues("id").toString()
+    var vmm = new Vue({
+        el: '#app',
+        data: {
+            product: {
+                id: id,
+                name: "",
+                filename: "",
+                content: "",
+                fcategory: {},
+                ccategory: {},
+                kc: "",
+            },
+            num: 1,
+            score: 5,
+            content: "",
+            commentlist: [],
+
+
+            sessionmember:"",
+            lovelist:[],
+        },
+        mounted() {
+            sessionStorage.setItem("signoutShow", "productlist")
+            this.show()
+            this.getsessionmember()
+        },
+        updated() {
+            layui.use(['rate'], function () {
+                var rate = layui.rate;
+                //基础效果
+                rate.render({
+                    elem: '#test2',
+                    value: vmm.score,
+                    setText: function (value) { //自定义文本的回调
+                        vmm.score = value
+                    }
+                })
+
+            });
+        },
+        methods: {
+
+
+
+
+            getsessionmember(){
+                axios.post('checkmember', qs.stringify({
+                })).then(response => {
+                    if(response.data.data==200){
+                        this.sessionmember = response.data.sessionmember
+
+                        axios.post('productLove', qs.stringify({})).then(response => {
+                            this.lovelist = response.data.lovelist
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+            commentadd() {
+                axios.post('checkmember', qs.stringify({})).then(response => {
+                    if (response.data.data == 200) {
+
+                        if (this.content == "") {
+                            layer.msg("内容不能为空", {icon: 5})
+                            return false;
+                        }
+                        axios.post('commentAdd', qs.stringify({
+                            productid: this.product.id,
+                            content: this.content,
+                            score: this.score,
+                        })).then(response => {
+                            if (response.data.data == 400) {
+                                layer.msg("已存在评价记录", {icon: 5})
+                            } else if (response.data.data == 500) {
+                                layer.msg("无购买记录评价失败", {icon: 5})
+                            } else {
+                                layer.msg("评价成功！", {icon: 6})
+                                this.getcommentlist()
+                            }
+                        }).catch(error => {
+                            console.log(error)
+                        })
+
+
+                    } else {
+                        location.replace("login.html")
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+            tobuy(productid) {
+                axios.post('checkmember', qs.stringify({})).then(response => {
+                    if (response.data.data == 200) {
+
+                        if (parseInt(this.num) > parseInt(this.product.kc)) {
+                            layer.msg("商品库存不足", {icon: 5})
+                            return false;
+                        }
+                        location.replace("checkout1.html?productid="+productid+"&num="+this.num)
+
+
+                        // axios.post('cartAdd',qs.stringify({
+                        //     productid:productid,
+                        //     num:this.num,
+                        // })).then(response =>{
+                        //     alert
+                        //     if(response.data.data==400){
+                        //         layer.msg("库存不足",{icon:5})
+                        //     }else{
+                        //         topvmm.getcartlist()
+                        //         location.replace("checkout.html")
+                        //     }
+                        // }).catch(error =>{
+                        //     console.log(error)
+                        // })
+
+
+                    } else {
+                        location.replace("login.html")
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+            addfav(productid) {
+                axios.post('checkmember', qs.stringify({})).then(response => {
+                    if (response.data.data == 200) {
+                        axios.post('favAdd', qs.stringify({
+                            productid: productid,
+                        })).then(response => {
+                            if (response.data.data == 400) {
+                                layer.msg("已收藏过此商品！", {icon: 5})
+                            } else {
+                                layer.msg("收藏成功！", {icon: 6})
+                                // headapp.getcheckmember();
+                                topvmm.getcartlist()
+                            }
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                    } else {
+                        location.replace("login.html")
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+            addcart(productid) {
+                axios.post('checkmember', qs.stringify({})).then(response => {
+                    if (response.data.data == 200) {
+                        if (parseInt(this.num) > parseInt(this.product.kc)) {
+                            layer.msg("商品库存不足", {icon: 5})
+                            return false;
+                        }
+                        axios.post('cartAdd', qs.stringify({
+                            productid: productid,
+                            num: this.num,
+                        })).then(response => {
+                            if (response.data.data == 400) {
+                                layer.msg("库存不足", {icon: 5})
+                            } else {
+                                layer.msg("加入购物车成功", {icon: 6})
+                                topvmm.getcartlist()
+                            }
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                    } else {
+                        location.replace("login.html")
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+            show() {
+                axios.post('admin/productShow', qs.stringify({
+                    id: this.product.id,
+                })).then(response => {
+                    this.product = response.data.product
+                    this.getcommentlist()
+
+                    if(this.sessionmember!=""){
+                        this.recordadd()//去记录浏览数据
+                    }
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+            recordadd(){
+                axios.post('recordAdd1', qs.stringify({
+                    productid: this.product.id,
+                })).then(response => {
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+            getcommentlist() {
+                axios.post('admin/commentList', qs.stringify({
+                    productid: this.product.id,
+                })).then(response => {
+                    this.commentlist = response.data.list
+
+                    this.$nextTick(function () {
+
+                        if (this.commentlist.length > 0) {
+                            layui.use(['rate'], function () {
+                                var rate = layui.rate;
+                                for (var i = 0; i < vmm.commentlist.length; i++) {
+                                    rate.render({
+                                        elem: '#rating' + vmm.commentlist[i].id
+                                        , value: vmm.commentlist[i].score
+                                        , half: true //开启半星
+                                        , readonly: true
+                                    });
+                                }
+                            })
+                        }
+
+
+                    })
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+
+        }
+    });
+
+    window.onload = function () {
+        $("#topiframe").load("iframe/topiframe.html")
+        $("#footiframe").load("iframe/footiframe.html")
+
+        var sc = document.createElement("script");
+        sc.src = "assets/js/main.js";
+        $("body").append(sc);
+    }
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,603 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>衣衣布舍女装网站</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="描述" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    
+
+    <!-- CSS
+	============================================ -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="layui/css/layui.css">
+
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="assets/css/vendor/font.awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="assets/css/vendor/ionicons.min.css">
+    <!-- Slick CSS -->
+    <link rel="stylesheet" href="assets/css/plugins/slick.min.css">
+    <!-- Animation -->
+    <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <!-- jQuery Ui -->
+    <link rel="stylesheet" href="assets/css/plugins/jquery-ui.min.css">
+    <!-- Nice Select -->
+    <link rel="stylesheet" href="assets/css/plugins/nice-select.min.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from the above) -->
+
+    <!-- <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"> -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/css/style.min.css"> -->
+</head>
+
+<body>
+
+    <div class="home-wrapper home-1">
+        <!-- Header Area Start Here -->
+        <header class="main-header-area">
+            <!-- Main Header Area Start -->
+
+            <div id="topiframe"></div>
+            <!-- Main Header Area End -->
+            <!-- Sticky Header Start Here-->
+            <!-- Sticky Header End Here -->
+            <!-- off-canvas menu start -->
+            <!-- off-canvas menu end -->
+        </header>
+        <!-- Header Area End Here -->
+        <!-- 主体部分 -->
+        <div id="app">
+
+            <div class="slider-area">
+
+                <div class="layui-carousel" id="test10">
+                    <div carousel-item="">
+                            <div v-for="imgadv in imgadvlist">
+                                <a :href="imgadv.url"><img :src="['upload/'+imgadv.filename]" style="width: 100%"></a>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="product-area" style="margin-top: 30px;">
+                <div class="container container-default custom-area">
+                    <div class="row">
+                        <div class="col-lg-5 m-auto text-center col-custom">
+                            <div class="section-content">
+                                <h2 class="title-1 text-uppercase">热销商品</h2>
+                                <!--<div class="desc-content">-->
+                                    <!--<p>All product are now available for you and your can buy this product from here any time any where so sop now</p>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="layui-row layui-col-space10">
+                            <div v-for="(producthot,i) in hotsalelist" v-if="i<4" class="layui-col-xs4 layui-col-sm12 layui-col-md3">
+                                <div class="grid-demo">
+                                    <div class="single-item">
+                                        <div class="single-product position-relative mb-30">
+                                            <div class="product-image">
+                                                <a class="d-block" :href="['productdetails.html?id='+producthot.id]">
+                                                    <img :src="['upload/'+producthot.filename]" alt="" class="product-image-1" style="width: 100%">
+                                                    <!--<img src="assets/images/product/10.jpg" alt="" class="product-image-2 position-absolute top-0 left-0">-->
+                                                </a>
+                                            </div>
+                                            <div class="product-content">
+                                                <div class="product-rating">
+                                                    <!--<i class="fa fa-star"></i>-->
+                                                    <!--<i class="fa fa-star"></i>-->
+                                                    <!--<i class="fa fa-star"></i>-->
+                                                    <!--<i class="fa fa-star-o"></i>-->
+                                                    <!--<i class="fa fa-star-o"></i>-->
+                                                </div>
+                                                <div class="product-title">
+                                                    <h4 class="title-2"> <a :href="['productdetails.html?id='+producthot.id]">{{producthot.name}}</a></h4>
+                                                </div>
+                                                <div class="price-box">
+                                                    <template v-if="producthot.tprice>0">
+                                                        <span class="regular-price ">￥{{producthot.tprice}}</span>
+                                                        <span class="old-price"><del>￥{{producthot.price}}</del></span>
+                                                    </template>
+                                                    <template v-else>
+                                                        <span class="regular-price ">￥{{producthot.price}}</span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="add-action d-flex position-absolute">
+                                                <a @click="addcart(producthot.id)" href="javascript:;" title="添加到购物车">
+                                                    <i class="ion-bag"></i>
+                                                </a>
+                                                <a @click="addfav(producthot.id)" href="javascript:;" title="添加到收藏">
+                                                    <i class="ion-ios-heart-outline"></i>
+                                                </a>
+                                                <a :href="['productdetails.html?id='+producthot.id]" data-toggle="modal" title="Quick View">
+                                                    <i class="ion-eye"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="product-area" style="margin-top: 30px;">
+                <div class="container container-default custom-area">
+                    <div class="row">
+                        <div class="col-lg-5 m-auto text-center col-custom">
+                            <div class="section-content">
+                                <h2 class="title-1 text-uppercase">推荐商品 </h2>
+                                <!--<div class="desc-content">-->
+                                    <!--<p>All product are now available for you and your can buy this product from here any time any where so sop now</p>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+                        <div class="layui-row layui-col-space10">
+                            <div v-for="(producttj,i) in producttjlist" class="layui-col-xs4 layui-col-sm12 layui-col-md3">
+                                <div class="grid-demo">
+                                    <div class="single-item">
+                                        <div class="single-product position-relative mb-30">
+                                            <div class="product-image">
+                                                <a class="d-block" :href="['productdetails.html?id='+producttj.id]">
+                                                    <img :src="['upload/'+producttj.filename]" alt="" class="product-image-1" style="width: 100%">
+                                                    <!--<img src="assets/images/product/10.jpg" alt="" class="product-image-2 position-absolute top-0 left-0">-->
+                                                </a>
+                                            </div>
+                                            <div class="product-content">
+                                                <div class="product-rating">
+                                                <!--<i class="fa fa-star"></i>-->
+                                                <!--<i class="fa fa-star"></i>-->
+                                                <!--<i class="fa fa-star"></i>-->
+                                                <!--<i class="fa fa-star-o"></i>-->
+                                                <!--<i class="fa fa-star-o"></i>-->
+                                                </div>
+                                                <div class="product-title">
+                                                    <h4 class="title-2"> <a :href="['productdetails.html?id='+producttj.id]">{{producttj.name}}</a></h4>
+                                                </div>
+                                                <div class="price-box">
+                                                    <template v-if="producttj.tprice>0">
+                                                        <span class="regular-price ">￥{{producttj.tprice}}</span>
+                                                        <span class="old-price"><del>￥{{producttj.price}}</del></span>
+                                                    </template>
+                                                    <template v-else>
+                                                        <span class="regular-price ">￥{{producttj.price}}</span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="add-action d-flex position-absolute">
+                                                <a @click="addcart(producttj.id)" href="javascript:;" title="添加到购物车">
+                                                    <i class="ion-bag"></i>
+                                                </a>
+                                                <a @click="addfav(producttj.id)" href="javascript:;" title="添加到收藏">
+                                                    <i class="ion-ios-heart-outline"></i>
+                                                </a>
+                                                <a :href="['productdetails.html?id='+producttj.id]" data-toggle="modal" title="Quick View">
+                                                    <i class="ion-eye"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="latest-blog-area">
+                <div class="container container-default custom-area">
+                    <div class="row">
+                        <div class="col-lg-5 m-auto text-center col-custom">
+                            <div class="section-content">
+                                <h2 class="title-1 text-uppercase">最新资讯</h2>
+                                <!--<div class="desc-content">-->
+                                    <!--<p>If you want to know about the organic product then keep an eye on our blog.</p>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+
+                            <div v-for="(news,i) in newslist" v-if="i<3" class="layui-col-xs4 layui-col-sm12 layui-col-md4">
+                                <div class="grid-demo">
+                                    <div class="single-blog-thumb">
+                                        <a :href="['newsdetails.html?id='+news.id]" style="width: 100%">
+                                            <img  :src="['upload/'+news.filename]"  style="height: 321px;width: 100%" alt="博客 Image">
+                                        </a>
+                                    </div>
+                                    <div class="single-blog-content position-relative" style="padding: 5px 0px;">
+                                        <div class="post-meta">
+                                        </div>
+                                        <h6 class="post-title" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;-o-text-overflow:ellipsis;">
+                                            <a :href="['newsdetails.html?id='+news.id]" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;-o-text-overflow:ellipsis;" >{{news.title}}</a>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div style="width: 100%;display: flex;flex-wrap: wrap;" >-->
+
+
+                            <!--<div  v-for="(news,i) in newslist"  style="width: 32%;margin:0 15px">-->
+                                <!--<div class="single-blog-thumb">-->
+                                    <!--<a href="blog.html">-->
+                                        <!--<img style="width: 400px;height: 250px" :src="['upload/'+news.filename]"  alt="博客 Image">-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                                <!--<div style="width: 80%" class="single-blog-content position-relative">-->
+                                    <!--<div class="post-meta">-->
+                                        <!--<span class="author">作者：XXXX</span>-->
+                                    <!--</div>-->
+                                    <!--<h4 style="margin:5px 0" class="post-title">-->
+                                        <!--<a href="blog.html">杯里的茶因遇到水而上浮，杯里的茶因为遇到水而清香。</a>-->
+                                    <!--</h4>-->
+                                    <!--<p class="desc-content">杯里的茶因遇到水而上浮，杯里的茶因为遇到水而清香。待香散尽，茶也变凉。不管等待是多么渺茫，水是多么滚烫，只要心中的理想不灭，就能送来清醇的茶香。</p>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="support-area">
+                <div class="container container-default custom-area">
+                </div>
+            </div>
+
+
+        </div>
+        <!-- 主体部分 -->
+
+
+        <!-- Slider Area One End Here -->
+        <!-- Feature Area Start Here -->
+        <!-- Feature Area End Here -->
+        <!-- Product Area Start Here -->
+        <!-- Product Area End Here -->
+        <!-- Banner Fullwidth Area Start Here -->
+        <!-- Banner Fullwidth Area End Here -->
+        <!-- Banner Area Start Here -->
+
+        <!-- Banner Area End Here -->
+        <!-- Product Area Start Here -->
+        <!-- Product Area End Here -->
+        <!-- Newslatter Area Start Here -->
+
+        <!-- Newslatter Area End Here -->
+        <!-- 最新博客 Area Start Here -->
+        <!-- 最新博客 Area End Here -->
+        <!-- Support Area Start Here -->
+        <!-- Support Area End Here -->
+        <!-- Footer Area Start Here -->
+        <footer class="footer-area">
+            <div class="footer-copyright-area" id="footiframe">
+            </div>
+        </footer>
+        <!-- Footer Area End Here -->
+    </div>
+
+    <!-- Modal Area Start Here -->
+    <div class="modal fade obrien-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
+                    <span class="close-icon" aria-hidden="true">x</span>
+                </button>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 text-center">
+                                <div class="product-image">
+                                    <img src="assets/images/product/1.jpg" alt="Product Image">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="modal-product">
+                                    <div class="product-content">
+                                        <div class="product-title">
+                                            <h4 class="title">商品名</h4>
+                                        </div>
+                                        <div class="price-box">
+                                            <span class="regular-price ">￥80.00</span>
+                                            <span class="old-price"><del>￥90.00</del></span>
+                                        </div>
+                                        <div class="product-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <i class="fa fa-star-o"></i>
+                                            <span>1 Review</span>
+                                        </div>
+                                        <p class="desc-content">杯里的茶因遇到水而上浮，杯里的茶因为遇到水而清香。待香散尽，茶也变凉。不管等待是多么渺茫，水是多么滚烫，只要心中的理想不灭，就能送来清醇的茶香。...</p>
+                                        <form class="d-flex flex-column w-100" action="#">
+                                            <div class="form-group">
+                                                <select class="form-control nice-select w-100">
+                                                    <option>S</option>
+                                                    <option>M</option>
+                                                    <option>L</option>
+                                                    <option>XL</option>
+                                                    <option>XXL</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                        <div class="quantity-with_btn">
+                                            <div class="quantity">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" value="0" type="text">
+                                                    <div class="dec qtybutton">-</div>
+                                                    <div class="inc qtybutton">+</div>
+                                                </div>
+                                            </div>
+                                            <div class="add-to_cart">
+                                                <a class="btn obrien-button primary-btn" href="cart.html">添加到购物车</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Area End Here -->
+
+    <!-- Scroll to Top Start -->
+    <a class="scroll-to-top" href="#">
+        <i class="ion-chevron-up"></i>
+    </a>
+    <!-- Scroll to Top End -->
+
+    <!-- JS
+============================================ -->
+
+    <!-- jQuery JS -->
+    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <!-- jQuery Migrate JS -->
+    <script src="assets/js/vendor/jQuery-migrate-3.3.0.min.js"></script>
+    <!-- Modernizer JS -->
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <!-- Slick Slider JS -->
+    <script src="assets/js/plugins/slick.min.js"></script>
+    <!-- Countdown JS -->
+    <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+    <!-- Ajax JS -->
+    <script src="assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <!-- Jquery Nice Select JS -->
+    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+    <!-- Jquery Ui JS -->
+    <script src="assets/js/plugins/jquery-ui.min.js"></script>
+    <!-- jquery magnific popup js -->
+    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
+
+    <script type="text/javascript" src="axios/vue.js"></script>
+    <script type="text/javascript" src="axios/axios.min.js"></script>
+    <script type="text/javascript" src="axios/qs.js"></script>
+    <script type="text/javascript" src="axios/getUrlParams.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        var qs = Qs
+        var vmm = new Vue({
+            el:"#app",
+            data:{
+                imgadvlist:[],
+                newslist:[],
+                producttjlist:[],
+                hotsalelist:[],
+
+            },
+            mounted(){
+                sessionStorage.setItem("signoutShow","index")
+
+                this.getimgadvlist()
+                this.getnewslist()
+                this.getproducttjlist()
+                this.gethotsalelist()
+
+            },
+            methods:{
+                getimgadvlist(){
+                    axios.post('admin/imgadvList',qs.stringify({
+                    })).then(response =>{
+                         this.imgadvlist = response.data.list
+
+                        this.$nextTick(function(){
+                            layui.use(['carousel', 'form'], function(){
+                                var carousel = layui.carousel
+                                    ,form = layui.form;
+
+
+                                //图片轮播
+                                carousel.render({
+                                    elem: '#test10'
+                                    ,width: '100%'
+                                    ,height: '740px'
+                                    ,interval: 5000
+                                });
+
+
+                                var $ = layui.$, active = {
+                                    set: function(othis){
+                                        var THIS = 'layui-bg-normal'
+                                            ,key = othis.data('key')
+                                            ,options = {};
+
+                                        othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                                        options[key] = othis.data('value');
+                                        ins3.reload(options);
+                                    }
+                                };
+
+                                //监听开关
+                                form.on('switch(autoplay)', function(){
+                                    ins3.reload({
+                                        autoplay: this.checked
+                                    });
+                                });
+
+                                $('.demoSet').on('keyup', function(){
+                                    var value = this.value
+                                        ,options = {};
+                                    if(!/^\d+$/.test(value)) return;
+
+                                    options[this.name] = value;
+                                    ins3.reload(options);
+                                });
+
+                                //其它示例
+                                $('.demoTest .layui-btn').on('click', function(){
+                                    var othis = $(this), type = othis.data('type');
+                                    active[type] ? active[type].call(this, othis) : '';
+                                });
+                            });
+                        })
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+                getnewslist(){
+                    axios.post('admin/newsList',qs.stringify({
+                    })).then(response =>{
+                        this.newslist = response.data.list
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+                getproducttjlist(){
+                    axios.post('productLb',qs.stringify({
+                        istj:"yes",
+                        issj:"yes",
+                    })).then(response =>{
+                        this.producttjlist = response.data.list
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+                gethotsalelist(){
+                    axios.post('hotSale',qs.stringify({
+                    })).then(response =>{
+                        this.hotsalelist = response.data
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+
+
+
+                addfav(productid){
+                    axios.post('checkmember',qs.stringify({
+                    })).then(response =>{
+                        if(response.data.data==200){
+                            axios.post('favAdd',qs.stringify({
+                                productid:productid,
+                            })).then(response =>{
+                                if(response.data.data==400){
+                                    layer.msg("已收藏过此商品！",{icon:5})
+                                }else{
+                                    layer.msg("收藏成功！",{icon:6})
+                                    // headapp.getcheckmember();
+                                    topvmm.getcartlist()
+                                }
+                            }).catch(error =>{
+                                console.log(error)
+                            })
+                        }else{
+                            location.replace("login.html")
+                        }
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+                addcart(productid){
+                    axios.post('checkmember',qs.stringify({
+                    })).then(response =>{
+                        if(response.data.data==200){
+                            axios.post('cartAdd',qs.stringify({
+                                productid:productid,
+                                num:1,
+                            })).then(response =>{
+                                if(response.data.data==400){
+                                    layer.msg("库存不足",{icon:5})
+                                }else{
+                                    layer.msg("加入购物车成功",{icon:6})
+                                    // headapp.getcheckmember();
+                                    topvmm.getcartlist()
+                                }
+                            }).catch(error =>{
+                                console.log(error)
+                            })
+                        }else{
+                            location.replace("login.html")
+                        }
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+
+
+
+
+            }
+        })
+
+
+        window.onload=function(){
+            $("#topiframe").load("iframe/topiframe.html")
+            $("#footiframe").load("iframe/footiframe.html")
+        }
+    </script>
+
+</body>
+
+</html>

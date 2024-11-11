@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>后台管理系统</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../layui/css/layui.css"/>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="css/fullcalendar.css"/>
+    <link rel="stylesheet" href="css/maruti-style.css"/>
+    <link rel="stylesheet" href="css/maruti-media.css" class="skin-color"/>
+</head>
+<body>
+
+
+<div id="iframetop">
+</div>
+<!--Header-part-->
+<!--close-Header-part-->
+
+
+<!--top-Header-menu-->
+
+<!--close-top-Header-menu-->
+
+
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"><a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a
+                href="#" class="current">订单管理</a></div>
+    </div>
+    <div class="container-fluid" id="app">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon"><i class="icon-th"></i></span>
+
+                        <div class="search" style="display: inline-block;height: 100%;padding:3px 0px 3px 3px;">
+                            <input type="text" v-model="key" placeholder="订单编号..." style="margin-bottom: 0px;"/>
+                            <button @click="getorderlist()" class="layui-btn layui-btn-sm" style="background: #F77825"><i
+                                    class="layui-icon layui-icon-search"></i></button>
+
+                        </div>
+
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                            <tr>
+
+                                <th>订单编号</th>
+                                <th>购买用户</th>
+                                <th>商品信息</th>
+                                <th>订单金额</th>
+                                <th>收货地址</th>
+                                <th>创建时间</th>
+                                <th>订单状态</th>
+                                <th>物流信息</th>
+                                <th>操作</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+
+                            <tr  v-for="order in orderlist" class="gradeA">
+                                <td style="text-align: center">{{order.ddno}}</td>
+                                <td style="text-align: center">{{order.member.tname}}</td>
+                                <td style="text-align: center" v-html="order.productmsg"> </td>
+                                <td style="text-align: center">{{order.total}}</td>
+                                <td style="text-align: center" v-html="order.addr">{{order.addr}}</td>
+                                <td style="text-align: center">{{order.savetime}}</td>
+                                <td style="text-align: center">{{order.status}}</td>
+                                <td style="text-align: center" v-html="order.wlinfo">{{order.wlinfo}}</td>
+                                <td style="text-align: center">
+                                    <a v-if="order.status=='待发货'" :href="['wlinfoadd.html?id='+order.id]" ><span class="layui-badge layui-bg-green">发货</span></a>
+                                    <a v-if="order.status=='待付款' || order.status=='交易完成'" @click="del(order.id)" href="javascript:;"><i class="icon icon-trash"></i> </a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="10"><div id="demo1" style="text-align:center"></div></td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/excanvas.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.flot.min.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/maruti.js"></script>
+<script src="js/maruti.dashboard.js"></script>
+<script src="js/maruti.chat.js"></script>
+<script type="text/javascript">
+    // This function is called from the pop-up menus to transfer to
+    // a different page. Ignore if the value returned is a null string:
+    function goPage(newURL) {
+
+        // if url is empty, skip the menu dividers and reset the menu selection to default
+        if (newURL != "") {
+
+            // if url is "-", it is this page -- reset the menu:
+            if (newURL == "-") {
+                resetMenu();
+            }
+            // else, send page to designated URL
+            else {
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // resets the menu selection upon entry to this page:
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
+</script>
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../layer/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript">
+
+    var qs = Qs
+    var pageNum = UrlParam.paramValues("pageNum")==null?1:UrlParam.paramValues("pageNum").toString()
+    var vmm = new Vue({
+        el: '#app',
+        data: {
+            orderlist: [],
+            key: '',
+            pageNum:pageNum,
+            pageSize: 10,
+
+        },
+        mounted() {
+            this.getorderlist()
+        },
+        methods: {
+            //当前用户列表
+            getorderlist() {
+                axios.post('orderList', qs.stringify({
+                    key: this.key,
+                    pageSize: this.pageSize
+                })).then(response => {
+                    layui.use(['laypage', 'layer'], function () {
+                        var laypage = layui.laypage
+                            , layer = layui.layer;
+                        //总页数大于页码总数
+                        laypage.render({
+                            elem: 'demo1'
+                            ,theme:"#F77825"
+                            ,curr:vmm.pageNum
+                            , limit: vmm.pageSize
+                            , count: response.data.list.length //数据总数
+                            , jump: function (obj, first) {
+                                vmm.pageNum = obj.curr
+                                vmm.current_page(obj.curr, vmm.pageSize)
+                                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                            }
+                        });
+                    });
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+
+            current_page(page, pageSize) {
+                axios.post('orderList', qs.stringify({
+                    key: this.key,
+                    pageNum: page,
+                    pageSize: pageSize,
+                })).then(response => {
+                    this.orderlist = response.data.pageInfo.list
+
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+
+            add(){
+                location.replace("orderadd.html")
+            },
+            del(id) {
+                axios.post("orderDel", qs.stringify({
+                    id: id,
+                })).then(response => {
+                    this.getorderlist()
+                }).catch(error => {
+                    console.log(error)
+                })
+            },
+
+
+
+        }
+    });
+
+
+    $(document).ready(function () {
+        $('#iframetop').load('top.html');
+
+    });
+
+</script>
+</body>
+
+</html>

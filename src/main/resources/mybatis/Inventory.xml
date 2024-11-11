@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.InventoryDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Inventory">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="productid" jdbcType="INTEGER" property="productid"/>
+        <result column="num" jdbcType="INTEGER" property="num"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.it.entity.Inventory">
+      insert into Inventory values(null,#{productid},#{num},#{flag})
+    </insert>
+
+
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Inventory where 1=1
+        <if test="flag!=null and flag!=''">
+            and flag=#{flag}
+        </if>
+        <if test="productid!=null and productid!=''">
+            and productid=#{productid}
+        </if>
+        order by id desc
+    </select>
+
+</mapper>

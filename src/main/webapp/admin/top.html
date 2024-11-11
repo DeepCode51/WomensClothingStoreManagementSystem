@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>后台管理系统</title><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+    <div style="height: 100%;padding-top: 20px;padding-left: 10px;color:white;font-size: 16px;">后台管理系统</div>
+</div>
+<!--close-Header-part--> 
+
+<!--top-Header-messaages-->
+<!--<div class="btn-group rightzero">-->
+    <!--<a class="top_message tip-left" title="Manage Files"><i class="icon-file"></i></a>-->
+    <!--<a class="top_message tip-bottom" title="Manage Users"><i class="icon-user"></i></a>-->
+    <!--<a class="top_message tip-bottom" title="Manage Comments"><i class="icon-comment"></i><span class="label label-important">5</span></a>-->
+    <!--<a class="top_message tip-bottom" title="Manage Orders"><i class="icon-shopping-cart"></i></a>-->
+<!--</div>-->
+<!--close-top-Header-messaages--> 
+
+<!--top-Header-menu-->
+<div id="topapp">
+    <div id="user-nav" class="navbar navbar-inverse">
+        <ul class="nav">
+            <!--<li class="" ><a title="" href="#"><i class="icon icon-user"></i> <span class="text">Profile</span></a></li>-->
+            <!--<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>-->
+
+            <li class=" dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-user"></i> <span class="text">{{admin.realname}}</span>  <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a class="sAdd" title="" href="adminedit.html">个人信息</a></li>
+                    <li><a class="sInbox" title="" href="updateupass.html">修改密码</a></li>
+                </ul>
+            </li>
+            <li class="">
+                <a title="" href="javascript:;" @click="logout()">
+                <i class="icon icon-share-alt"></i>
+                <span class="text">退出</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 首页</a>
+        <ul>
+            <li class="active"><a href="index1.html"><i class="icon icon-home"></i> <span>首页</span></a></li>
+            <!--<li><a href="tables.html"><i class="icon icon-th"></i> <span>Tables</span></a></li>-->
+            <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>系统设置</span> <span class="label">1</span></a>
+                <ul>
+                    <li><a href="imgadvlist.html">焦点图管理</a></li>
+                </ul>
+            </li>
+
+            <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>用户管理</span> <span class="label">1</span></a>
+                <ul>
+                    <li><a href="memberlist.html">注册用户</a></li>
+                </ul>
+            </li>
+
+            <li class="submenu"> <a href="#"><i class="icon icon-th"></i> <span>业务管理</span> <span class="label">6</span></a>
+                <ul>
+                    <li><a href="newslist.html">资讯管理</a></li>
+                    <li><a href="categorylist.html">分类管理</a></li>
+                    <li><a href="productlist.html">商品管理</a></li>
+                    <li><a href="orderlist.html">订单管理</a></li>
+                    <li><a href="applylist.html">售后管理</a></li>
+                    <li><a href="commentlist.html">评价管理</a></li>
+                    <li><a href="chatlist.html">留言管理</a></li>
+
+
+                </ul>
+            </li>
+            <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>销量统计</span></a></li>
+
+
+
+        </ul>
+    </div>
+</div>
+<!--<div id="search">-->
+  <!--<input type="text" placeholder="Search here..."/>-->
+  <!--<button type="submit" class="tip-left" title="Search"><i class="icon-search icon-white"></i></button>-->
+<!--</div>-->
+<!--close-top-Header-menu-->
+
+
+
+<script type="text/javascript">
+
+
+    var qs = Qs
+    var topvmm = new Vue({
+        el:"#topapp",
+        data:{
+            admin:"",
+        },
+        mounted(){
+            this.getadmin()
+        },
+        methods:{
+            getadmin(){
+                axios.post('checkadmin',qs.stringify({
+                })).then(response =>{
+                    if(response.data.data==400){
+                        location.replace("login.html")
+                    }else{
+                        this.admin =  response.data.admin
+                    }
+
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+            logout(){
+                axios.post('logout',qs.stringify({
+                })).then(response =>{
+                    location.replace("login.html")
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+
+        }
+    })
+</script>
+
+</body>
+
+</html>

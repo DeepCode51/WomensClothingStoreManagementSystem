@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.ChatDAO">
+  <resultMap id="BaseResultMap" type="com.it.entity.Chat">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="memberid" jdbcType="INTEGER" property="memberid" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="savetime" jdbcType="VARCHAR" property="savetime" />
+      <result column="hfcontent" jdbcType="VARCHAR" property="hfcontent" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.it.entity.Chat">
+      insert into Chat values(null,#{memberid},#{content},#{savetime},#{hfcontent})
+    </insert>
+
+
+  <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+      select * from Chat where 1=1 
+      <if test="key!=null and key!=''">
+          and memberid in (select id from member where tname like "%"#{key}"%")
+      </if>
+      order by id desc
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="com.it.entity.Chat">
+      select * from Chat  where id=#{id}
+    </select>
+    
+    <update id="update" parameterType="com.it.entity.Chat">
+        update Chat
+        <set>
+            <if test="hfcontent!=null and hfcontent!=''">hfcontent=#{hfcontent}</if>
+        </set>
+        where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+      delete from Chat where id=#{id}
+    </delete>
+  
+</mapper>

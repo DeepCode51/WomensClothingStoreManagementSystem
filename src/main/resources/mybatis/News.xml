@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.NewsDAO">
+  <resultMap id="BaseResultMap" type="com.it.entity.News">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="filename" jdbcType="VARCHAR" property="filename" />
+      <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="savetime" jdbcType="VARCHAR" property="savetime" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.it.entity.News">
+      insert into News values(null,#{title},#{filename},#{content},#{savetime})
+    </insert>
+
+    <update id="update" parameterType="com.it.entity.News">
+        update News
+        <set>
+            <if test="title!=null and title!=''">title=#{title},</if>
+            <if test="filename!=null and filename!=''">filename=#{filename},</if>
+            <if test="content!=null and content!=''">content=#{content}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+  <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+      select * from News where 1=1 
+      <if test="key!=null and key!=''">
+          and title like "%"#{key}"%"
+      </if>
+      order by id desc
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="com.it.entity.News">
+      select * from News  where id=#{id}
+    </select>
+    
+
+    <delete id="delete" parameterType="int">
+      delete from News where id=#{id}
+    </delete>
+  
+</mapper>

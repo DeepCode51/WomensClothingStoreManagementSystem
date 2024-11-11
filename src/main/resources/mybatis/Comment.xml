@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.CommentDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Comment">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="memberid" jdbcType="INTEGER" property="memberid"/>
+        <result column="productid" jdbcType="INTEGER" property="productid"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="savetime" jdbcType="VARCHAR" property="savetime"/>
+        <result column="hfcontent" jdbcType="VARCHAR" property="hfcontent"/>
+
+    </resultMap>
+
+    <insert id="add" parameterType="com.it.entity.Comment">
+      insert into Comment values(null,#{memberid},#{productid},#{score},#{content},#{savetime},#{hfcontent})
+    </insert>
+
+    <update id="update" parameterType="com.it.entity.Comment">
+        update Comment
+        <set>
+            <if test="hfcontent!=null and hfcontent!=''">hfcontent=#{hfcontent},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Comment where 1=1
+        <if test="key!=null and key!=''">
+            and productid in (select id from product where name like "%"#{key}"%")
+        </if>
+        <if test="memberid!=null and memberid!=''">
+            and memberid=#{memberid}
+        </if>
+        <if test="productid!=null and productid!=''">
+            and productid=#{productid}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.it.entity.Comment">
+      select * from Comment  where id=#{id}
+    </select>
+
+
+    <delete id="delete" parameterType="int">
+      delete from Comment where id=#{id}
+    </delete>
+
+</mapper>

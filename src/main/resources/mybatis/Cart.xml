@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.CartDAO">
+  <resultMap id="BaseResultMap" type="com.it.entity.Cart">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="memberid" jdbcType="INTEGER" property="memberid" />
+    <result column="productid" jdbcType="INTEGER" property="productid" />
+      <result column="num" jdbcType="INTEGER" property="num" />
+  </resultMap>
+  
+
+  <insert id="add" parameterType="com.it.entity.Cart">
+      insert into Cart values(null,#{memberid},#{productid},#{num})
+    </insert>
+
+
+  <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+      select * from Cart where 1=1 
+      <if test="memberid!=null and memberid!=''">
+      and memberid=#{memberid}
+      </if>
+      <if test="productid!=null and productid!=''">
+      and productid=#{productid}
+      </if>
+      order by id desc
+    </select>
+    
+    <select id="findById" parameterType="int" resultType="com.it.entity.Cart">
+      select * from Cart  where id=#{id}
+    </select>
+
+    <update id="update" parameterType="com.it.entity.Cart">
+        update cart
+        <set>
+            <if test="num &gt; 0">num=#{num}</if>
+        </set>
+        where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="int">
+      delete from Cart where id=#{id}
+    </delete>
+  
+</mapper>

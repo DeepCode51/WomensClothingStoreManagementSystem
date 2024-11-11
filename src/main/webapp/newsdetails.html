@@ -1,0 +1,210 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>衣衣布舍女装网站</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="描述" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    
+
+    <!-- CSS
+	============================================ -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="assets/css/vendor/font.awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="assets/css/vendor/ionicons.min.css">
+    <!-- Slick CSS -->
+    <link rel="stylesheet" href="assets/css/plugins/slick.min.css">
+    <!-- Animation -->
+    <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <!-- jQuery Ui -->
+    <link rel="stylesheet" href="assets/css/plugins/jquery-ui.min.css">
+    <!-- Nice Select -->
+    <link rel="stylesheet" href="assets/css/plugins/nice-select.min.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
+
+    <!-- Vendor & Plugins CSS (Please remove the comment from below vendor.min.css & plugins.min.css for better website load performance and remove css files from the above) -->
+
+    <!-- <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/plugins.min.css"> -->
+
+    <!-- Main Style CSS (Please use minify version for better website load performance) -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/css/style.min.css"> -->
+    <style>
+        /*验证码*/
+
+        .upload-awrp {
+            overflow: hidden;
+            margin: 120px 0;
+        }
+
+        .code {
+            font-family: Arial;
+            font-style: italic;
+            font-size: 15px;
+            border: 0;
+            padding: 0px 10px 0px 10px;
+            letter-spacing: 3px;
+            font-weight: bolder;
+            float: left;
+            cursor: pointer;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            border-left: 1px solid #DDDDDD;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contact-wrapper">
+        <header class="main-header-area">
+            <div id="topiframe"></div>
+            <!-- Main Header Area Start -->
+
+            <!-- Main Header Area End -->
+            <!-- Sticky Header Start Here-->
+
+            <!-- Sticky Header End Here -->
+            <!-- off-canvas menu start -->
+
+            <!-- off-canvas menu end -->
+        </header>
+        <!-- Breadcrumb Area Start Here -->
+        <div class="breadcrumbs-area position-relative" style="background: url('upload/banner.jpg')">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="breadcrumb-content position-relative section-content">
+                            <h3 class="title-3">新闻资讯</h3>
+                            <ul>
+                                <li><a href="index.html">首页</a></li>
+                                <li>新闻资讯-资讯详情</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Breadcrumb Area End Here -->
+        <!-- Login Area Start Here -->
+        <div class="faq_content_area" id="app">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="faq_content_wrapper">
+                            <h4 style="text-align: center">{{news.title}}</h4>
+                            <time style="width:100%;display:inline-block;text-align: center;border-bottom: 1px solid #DDDDDD;padding-bottom: 5px;">发布时间：{{news.savetime}}</time>
+                            <!--<template v-if="news.filename!='noimg.jpg'">-->
+                                <!--<img :src="['upload/'+news.filename]" style="width: 100%">-->
+                            <!--</template>-->
+                            <p style="padding-top: 20px;" v-html="news.content"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login Area End Here -->
+        <!-- Support Area Start Here -->
+        <div class="support-area">
+
+        </div>
+        <!-- Support Area End Here -->
+        <!-- Footer Area Start Here -->
+        <footer class="footer-area">
+            <div class="footer-copyright-area" id="footiframe">
+            </div>
+        </footer>
+        <!-- Footer Area End Here -->
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- jQuery JS -->
+    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <!-- jQuery Migrate JS -->
+    <script src="assets/js/vendor/jQuery-migrate-3.3.0.min.js"></script>
+    <!-- Modernizer JS -->
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <!-- Slick Slider JS -->
+    <script src="assets/js/plugins/slick.min.js"></script>
+    <!-- Countdown JS -->
+    <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+    <!-- Ajax JS -->
+    <script src="assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <!-- Jquery Nice Select JS -->
+    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+    <!-- Jquery Ui JS -->
+    <script src="assets/js/plugins/jquery-ui.min.js"></script>
+    <!-- jquery magnific popup js -->
+    <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
+
+    <script type="text/javascript" src="axios/vue.js"></script>
+    <script type="text/javascript" src="axios/axios.min.js"></script>
+    <script type="text/javascript" src="axios/qs.js"></script>
+    <script type="text/javascript" src="axios/getUrlParams.js"></script>
+    <script type="text/javascript" src="layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.js"></script>
+
+
+
+    <script type="text/javascript">
+
+        var qs = Qs
+        var id = UrlParam.paramValues("id").toString()
+        var vmm = new Vue({
+            el: '#app',
+            data: {
+                news:{
+                    id:id,
+                    title:"",
+                    filename:"",
+                    content:"",
+                },
+            },
+            mounted(){
+                sessionStorage.setItem("signoutShow","newslist")
+                this.show()
+            },
+            methods: {
+                show(){
+                    axios.post('admin/newsShow',qs.stringify({
+                        id:this.news.id,
+                    })).then(response =>{
+                        this.news = response.data.news
+                    }).catch(error =>{
+                        console.log(error)
+                    })
+                },
+
+
+            }
+        });
+
+        window.onload=function(){
+            $("#topiframe").load("iframe/topiframe.html")
+            $("#footiframe").load("iframe/footiframe.html")
+        }
+    </script>
+
+</body>
+
+</html>

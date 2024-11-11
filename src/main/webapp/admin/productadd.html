@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>后台管理系统</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="../layui/css/layui.css"/>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" href="css/fullcalendar.css"/>
+    <link rel="stylesheet" href="css/maruti-style.css"/>
+    <link rel="stylesheet" href="css/maruti-media.css" class="skin-color"/>
+
+    <link rel="stylesheet" href="../kindeditor/themes/default/default.css" />
+    <link rel="stylesheet" href="../kindeditor/plugins/code/prettify.css" />
+    <script charset="utf-8" src="../kindeditor/plugins/code/prettify.js"></script>
+    <script charset="utf-8" src="../kindeditor/kindeditor-all.js"></script>
+    <script charset="utf-8" src="../kindeditor/lang/zh-CN.js"></script>
+
+
+</head>
+<body>
+
+
+<div id="iframetop">
+</div>
+<!--Header-part-->
+<!--close-Header-part-->
+
+
+<!--top-Header-menu-->
+
+<!--close-top-Header-menu-->
+
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb">
+            <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
+            <a href="#" class="tip-bottom">商品管理</a>
+            <a href="#" class="current">新增商品</a>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="app">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+								<span class="icon">
+									<i class="icon-align-justify"></i>
+								</span>
+                        <h5>新增商品</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form action="#" method="get" class="form-horizontal">
+
+
+                            <div class="control-group">
+                                <label class="control-label">图片 :</label>
+                                <div class="controls">
+                                    <div class="layui-upload">
+                                        <div class="layui-upload-list">
+                                            <input type="hidden" v-model="product.filename" id="filename" value="noimg.jpg"/>
+                                            <img class="layui-upload-img" id="imgname" style="width: 10%">
+                                            <p id="demoText"></p>
+                                        </div>
+                                        <button type="button" class="layui-btn" id="test1"><i class="layui-icon"></i>上传图片</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="control-group">
+                                <label class="control-label">商品名称 :</label>
+                                <div class="controls"><input type="text" v-model="product.name" class="span20" placeholder="商品名称" /></div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">一级类目 :</label>
+                                <div class="controls">
+                                    <select v-model="product.categoryid" class="span6" @change="getchildlist()" >
+                                        <option value="">请选择一级类目 </option>
+                                        <option v-for="fcategory in fatherlist" :value="fcategory.id">{{fcategory.name}} </option>
+                                    </select>
+                                    <select v-model="product.childid" class="span6" >
+                                        <option value="">请选择二级级类目 </option>
+                                        <option v-for="ccategory in childlist" :value="ccategory.id">{{ccategory.name}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="control-group">
+                                <label class="control-label">价格 :</label>
+                                <div class="controls"><input type="text" v-model="product.price" class="span20" placeholder="价格" /></div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">内容</label>
+                                <div class="controls">
+                                    <textarea class="span20" id="editor_id" style="height: 300px;" ></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-success" @click="add()">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+<script src="js/excanvas.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.flot.min.js"></script>
+<script src="js/jquery.flot.resize.min.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/fullcalendar.min.js"></script>
+<script src="js/maruti.js"></script>
+<script src="js/maruti.dashboard.js"></script>
+<script src="js/maruti.chat.js"></script>
+<script type="text/javascript">
+    // This function is called from the pop-up menus to transfer to
+    // a different page. Ignore if the value returned is a null string:
+    function goPage(newURL) {
+
+        // if url is empty, skip the menu dividers and reset the menu selection to default
+        if (newURL != "") {
+
+            // if url is "-", it is this page -- reset the menu:
+            if (newURL == "-") {
+                resetMenu();
+            }
+            // else, send page to designated URL
+            else {
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // resets the menu selection upon entry to this page:
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
+</script>
+<script type="text/javascript" src="../axios/vue.js"></script>
+<script type="text/javascript" src="../axios/axios.min.js"></script>
+<script type="text/javascript" src="../axios/qs.js"></script>
+<script type="text/javascript" src="../axios/getUrlParams.js"></script>
+<script type="text/javascript" src="../layer/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script type="text/javascript">
+
+    var qs = Qs
+    var vmm = new Vue({
+        el: '#app',
+        data: {
+            product: {
+                filename:"noimg.jpg",
+                name:"",
+                categoryid:"",
+                childid:"",
+                price:"",
+                content:"",
+            },
+
+            fatherlist:[],
+            childlist:[],
+
+        },
+        mounted() {
+            this.getfatherlist()
+            this.$nextTick(function(){
+                var img = "";
+                layui.use(['form', 'layer', 'upload'], function () {
+                    $ = layui.jquery;
+                    var form = layui.form
+                        , layer = layui.layer
+                        , upload = layui.upload;
+
+                    //普通图片上传
+                    layui.use('upload', function () {
+                        var $ = layui.jquery
+                            , upload = layui.upload;
+
+                        //普通图片上传
+                        var uploadInst = upload.render({
+                            elem: '#test1'
+                            , url: 'uploadImg'
+                            , accept: 'images'
+                            , size: 50000
+                            , before: function (obj) {
+
+                                obj.preview(function (index, file, result) {
+                                    $('#imgname').attr('src', result);
+                                });
+                            }
+                            , done: function (res) {
+                                //如果上传失败
+                                if (res.code > 0) {
+                                    return layer.msg('上传失败');
+                                }
+                                //上传成功
+                                var demoText = $('#demoText');
+                                demoText.html('<span style="color: #4cae4c;">上传成功</span>');
+                                var fileupload = $(".image");
+                                fileupload.attr("value", res.data.src);
+                                // $("#filename").val(res.data.src)
+                                vmm.product.filename = res.data.src
+                                //console.log(fileupload.attr("value"));
+                                console.log(res.data.src);
+                                img = res.data.src;
+                            }
+                            , error: function () {
+                                //演示失败状态，并实现重传
+                                var demoText = $('#demoText');
+                                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                                demoText.find('.demo-reload').on('click', function () {
+                                    uploadInst.upload();
+                                });
+                            }
+                        });
+                    });
+                });
+
+
+
+
+                KindEditor.ready(function(K) {
+                    window.editor = K.create('#editor_id');
+                });
+
+                KindEditor.ready(function(K) {
+                    K.create('textarea[name="note"]', {
+                        uploadJson : '../kindeditor/jsp/upload_json.jsp',
+                        fileManagerJson : '../kindeditor/jsp/file_manager_json.jsp',
+                        allowFileManager : true,
+                        allowImageUpload : true,
+                        autoHeightMode : true,
+                        afterCreate : function() {this.loadPlugin('autoheight');},
+                        afterBlur : function(){ this.sync(); }  //Kindeditor下获取文本框信息
+                    });
+                });
+            })
+        },
+        methods: {
+            add() {
+                this.product.content = window.editor.html()
+                if(this.product.name==""){
+                    layer.msg("商品名称不能为空",{icon:5})
+                    return false;
+                }
+                if(this.product.categoryid==""){
+                    layer.msg("请选择一级类目",{icon:5})
+                    return false;
+                }
+                if(this.product.childid==""){
+                    layer.msg("请选择二级类目",{icon:5})
+                    return false;
+                }
+                if(this.product.price==""||!/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test(this.product.price)){
+                    layer.msg("价格输入错误",{icon:5})
+                    return false;
+                }
+
+                axios.post('productAdd',qs.stringify({
+                    filename:this.product.filename,
+                    name:this.product.name,
+                    categoryid:this.product.categoryid,
+                    childid:this.product.childid,
+                    brandid:this.product.brandid,
+                    price:this.product.price,
+                    content:this.product.content,
+                })).then(response =>{
+                    location.replace("productlist.html")
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+            getfatherlist(){
+                axios.post('categoryList',qs.stringify({
+                })).then(response =>{
+                    this.fatherlist = response.data.list
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+
+            getchildlist(){
+                this.product.childid=""
+                if(this.product.categoryid==""){
+                    this.childlist=""
+                    return false
+                }
+                axios.post('../member/searchchildlist',qs.stringify({
+                    categoryid:this.product.categoryid,
+                })).then(response =>{
+                    this.childlist = response.data.childlist
+                }).catch(error =>{
+                    console.log(error)
+                })
+            },
+
+
+        }
+    });
+
+
+    $(document).ready(function () {
+        $('#iframetop').load('top.html');
+
+    });
+
+</script>
+</body>
+
+</html>

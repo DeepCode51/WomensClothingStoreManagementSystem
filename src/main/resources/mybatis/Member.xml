@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.MemberDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Member">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uname" jdbcType="VARCHAR" property="uname"/>
+        <result column="upass" jdbcType="VARCHAR" property="upass"/>
+        <result column="tname" jdbcType="VARCHAR" property="tname"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="birthtime" jdbcType="VARCHAR" property="birthtime"/>
+        <result column="tel" jdbcType="VARCHAR" property="tel"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="filename" jdbcType="VARCHAR" property="filename"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+
+
+    </resultMap>
+
+
+    <insert id="add" parameterType="com.it.entity.Member">
+      insert into Member values(null,#{uname},#{upass},#{tname},#{sex},#{birthtime},#{tel},#{email},#{filename},#{status})
+    </insert>
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Member where 1=1
+        <if test="key!=null and key!=''">
+            and (tname like "%"#{key}"%" or uname like "%"#{key}"%")
+        </if>
+        <if test="uname!=null and uname!=''">
+            and uname=#{uname}
+        </if>
+        <if test="upass!=null and upass!=''">
+            and upass=#{upass}
+        </if>
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+        order by id desc
+    </select>
+
+    <update id="update" parameterType="com.it.entity.Member">
+        UPDATE member
+        <set>
+            <if test="upass!=null and upass!=''">upass=#{upass},</if>
+            <if test="tname!=null and tname!=''">tname=#{tname},</if>
+            <if test="sex!=null and sex!=''">sex=#{sex},</if>
+            <if test="birthtime!=null and birthtime!=''">birthtime=#{birthtime},</if>
+            <if test="tel!=null and tel!=''">tel=#{tel},</if>
+            <if test="email!=null and email!=''">email=#{email},</if>
+            <if test="filename!=null and filename!=''">filename=#{filename},</if>
+            <if test="status!=null and status!=''">status=#{status},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="findById" parameterType="Int" resultType="com.it.entity.Member">
+        select * from member where id=#{id}
+    </select>
+
+
+    <delete id="delete" parameterType="int">
+      delete from Member where id=#{id}
+    </delete>
+
+</mapper>

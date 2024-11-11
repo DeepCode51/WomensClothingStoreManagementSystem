@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.ApplyDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Apply">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="memberid" jdbcType="INTEGER" property="memberid"/>
+        <result column="ddno" jdbcType="VARCHAR" property="ddno"/>
+        <result column="productid" jdbcType="INTEGER" property="productid"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="savetime" jdbcType="VARCHAR" property="savetime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.it.entity.Apply">
+      insert into Apply values(null,#{memberid},#{ddno},#{productid},#{flag},#{content},#{savetime},#{status})
+    </insert>
+
+    <update id="update" parameterType="com.it.entity.Apply">
+        update Apply
+        <set>
+            <if test="status!=null and status!=''">status=#{status},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Apply where 1=1
+        <if test="key!=null and key!=''">
+            and ddno like "%"#{key}"%"
+        </if>
+        <if test="memberid!=null and memberid!=''">
+            and memberid=#{memberid}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.it.entity.Apply">
+      select * from Apply  where id=#{id}
+    </select>
+
+
+    <delete id="delete" parameterType="int">
+      delete from Apply where id=#{id}
+    </delete>
+
+</mapper>

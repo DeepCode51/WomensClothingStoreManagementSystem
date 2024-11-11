@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.OrdermsgDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Ordermsg">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ddno" jdbcType="VARCHAR" property="ddno"/>
+        <result column="memberid" jdbcType="INTEGER" property="memberid"/>
+        <result column="productmsg" jdbcType="VARCHAR" property="productmsg"/>
+        <result column="total" jdbcType="DOUBLE" property="total"/>
+        <result column="addr" jdbcType="VARCHAR" property="addr"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="savetime" jdbcType="VARCHAR" property="savetime"/>
+        <result column="wlinfo" jdbcType="VARCHAR" property="wlinfo"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.it.entity.Ordermsg">
+      insert into Ordermsg values(null,#{ddno},#{memberid},#{productmsg},#{total},#{addr},#{status},#{savetime},#{wlinfo})
+    </insert>
+
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Ordermsg where 1=1
+        <if test="key!=null and key!=''">
+            and ddno like "%"#{key}"%"
+        </if>
+        <if test="memberid!=null and memberid!=''">
+            and memberid=#{memberid}
+        </if>
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+
+        <if test="ddno!=null and ddno!=''">
+            and ddno=#{ddno}
+        </if>
+
+        order by id desc
+    </select>
+
+
+    <select id="selectTjmoney" parameterType="hashmap" resultMap="BaseResultMap">
+        select sum(total) as total,date_format(savetime,'%Y-%m-%d') as savetime from Ordermsg where 1=1
+        <if test="status!=null and status!=''">
+            and status=#{status}
+        </if>
+        GROUP BY date_format(savetime,'%Y-%m-%d') order by date_format(savetime,'%Y-%m-%d') asc
+    </select>
+
+    <select id="findById" parameterType="com.it.entity.Ordermsg" resultType="com.it.entity.Ordermsg">
+        select * from ordermsg where id=#{id}
+    </select>
+
+    <update id="update" parameterType="com.it.entity.Ordermsg">
+        update ordermsg
+        <set>
+            <if test="status!=null and status!=''">
+                status=#{status},
+            </if>
+
+            <if test="wlinfo!=null and wlinfo!=''">
+                wlinfo=#{wlinfo},
+            </if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+      delete from Ordermsg where id=#{id}
+    </delete>
+
+
+</mapper>

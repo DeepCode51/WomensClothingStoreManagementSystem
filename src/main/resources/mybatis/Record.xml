@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.RecordDAO">
+    <resultMap id="BaseResultMap" type="com.it.entity.Record">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="memberid" jdbcType="INTEGER" property="memberid"/>
+        <result column="productid" jdbcType="INTEGER" property="productid"/>
+        <result column="cs" jdbcType="INTEGER" property="cs"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+
+    </resultMap>
+
+    <insert id="add" parameterType="com.it.entity.Record">
+      insert into Record values(null,#{memberid},#{productid},#{cs},#{flag})
+    </insert>
+
+    <update id="update" parameterType="com.it.entity.Record">
+        update Record
+        <set>
+            <if test="cs!=null and cs!=''">cs=#{cs},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="selectAll" parameterType="hashmap" resultMap="BaseResultMap">
+        select * from Record where 1=1
+        <if test="memberid!=null and memberid!=''">
+            and memberid=#{memberid}
+        </if>
+        <if test="productid!=null and productid!=''">
+            and productid=#{productid}
+        </if>
+        <if test="flag!=null and flag!=''">
+            and flag=#{flag}
+        </if>
+        order by id desc
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.it.entity.Record">
+      select * from Record  where id=#{id}
+    </select>
+
+
+    <delete id="delete" parameterType="int">
+      delete from Record where id=#{id}
+    </delete>
+
+</mapper>

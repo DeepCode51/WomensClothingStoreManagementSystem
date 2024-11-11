@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+        <title>后台管理系统</title><meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="css/maruti-login.css" />
+    </head>
+    <body>
+        <div id="logo">
+            <img src="img/login-logo.png" alt="" />
+        </div>
+        <div id="loginbox">            
+            <form id="loginform" class="form-vertical" action="index.html">
+				 <div class="control-group normal_text"><h3>后台管理系统</h3></div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on"><i class="icon-user"></i></span><input type="text" v-model="username" placeholder="登录名" />
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on"><i class="icon-lock"></i></span><input type="password" v-model="userpwd" placeholder="密码" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <!--<span class="pull-left"><a href="#" class="flip-link btn btn-warning" id="to-recover">Lost password?</a></span>-->
+                    <span class="pull-right"><input type="button" class="btn btn-success" value="登录" @click="login()" /></span>
+                </div>
+            </form>
+            <form id="recoverform" action="#" class="form-vertical">
+				<p class="normal_text">Enter your e-mail address below and we will send you instructions <br/><font color="#FF6633">how to recover a password.</font></p>
+				
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on"><i class="icon-envelope"></i></span><input type="text" placeholder="E-mail address" />
+                        </div>
+                    </div>
+               
+                <div class="form-actions">
+                    <span class="pull-left"><a href="#" class="flip-link btn btn-warning" id="to-login">&laquo; Back to login</a></span>
+                    <span class="pull-right"><input type="submit" class="btn btn-info" value="Recover" /></span>
+                </div>
+            </form>
+        </div>
+        
+        <script src="js/jquery.min.js"></script>  
+        <script src="js/maruti.login.js"></script>
+
+        <script type="text/javascript" src="../axios/vue.js"></script>
+        <script type="text/javascript" src="../axios/axios.min.js"></script>
+        <script type="text/javascript" src="../axios/qs.js"></script>
+        <script type="text/javascript" src="../axios/getUrlParams.js"></script>
+        <script type="text/javascript" src="../layer/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="../layer/layer.js"></script>
+
+        <script type="text/javascript">
+            var qs = Qs
+            var vm = new Vue({
+                el:"#loginbox",
+                data:{
+                    username:"",
+                    userpwd:"",
+
+                },
+                methods:{
+                    login(){
+                        if(this.username==""){
+                            layer.msg("用户名不能为空",{icon:5})
+                            return false;
+                        }
+                        if(this.userpwd==""){
+                            layer.msg("密码不能为空",{icon:5})
+                            return false;
+                        }
+                        axios.post('Login',qs.stringify({
+                            username:this.username,
+                            userpwd:this.userpwd
+                        })).then(response =>{
+
+                            console.log(response.data)
+                        if(response.data.data==200){
+                            //console.log(response.data.admin.username)
+                            window.location.replace("index1.html")
+                        }else if(response.data.data==400){
+                            layer.msg("用户名或密码错误",{icon:5})
+                            this.username=""
+                            this.userpwd=""
+                        }else{
+                            layer.msg("未通过审核",{icon:5})
+                            this.username=""
+                            this.userpwd=""
+                        }
+
+                    }).catch(error =>{
+                            console.log(error)
+                    })
+                    },
+
+
+
+
+                }
+            })
+        </script>
+    </body>
+
+</html>
